@@ -1,6 +1,13 @@
-# HER-mazing Touch — Website
+# HER-mazing Touch — Website & Shop
 
-A simple, mobile-friendly advertisement website for HER-mazing Touch — a small business offering scented candles, gift sets, and custom engraving. Built to drive customers to call or text **571-575-7174** to order (no online checkout yet).
+Mobile-friendly site for HER-mazing Touch — scented candles, gift sets and custom
+engraving — with online payment via Stripe and worldwide shipping.
+
+> ### ⚠️ Not live yet
+> Prices are **placeholders** and no Stripe account is connected, so nothing can
+> be charged. Follow **[SETUP.md](SETUP.md)** to put in real prices, connect
+> Stripe and deploy. Until then the site still works as a shopfront and every
+> page drives to **571-575-7174**.
 
 ## Structure
 
@@ -8,6 +15,22 @@ A simple, mobile-friendly advertisement website for HER-mazing Touch — a small
 - `css/style.css` — all styling, colors, and responsive layout
 - `js/script.js` — tab switching, mobile menu, gift-set occasion filters, scroll animations
 - `images/` — brand assets
+- `shared/catalog.js` — **every product, price and shipping rule** (edit prices here only)
+- `js/cart.js` — basket, drawer and checkout hand-off
+- `netlify/functions/create-checkout.js` — creates the Stripe Checkout session
+- `success.html` / `cancel.html` — post-payment pages
+
+## How payment works
+
+The browser only ever sends `{ sku, qty, note }`. The checkout function looks
+every price up again from `shared/catalog.js`, so editing the basket in devtools
+or localStorage cannot change what a customer is charged. Card details are
+entered on Stripe's own hosted page and never touch this site.
+
+Perishable items (fresh flowers, chocolate-dipped strawberries) and money
+bouquets are marked `shipping: 'local'` and are automatically restricted to
+pickup or local delivery — the checkout will not accept an overseas address for
+them.
 
 ## Brand assets
 

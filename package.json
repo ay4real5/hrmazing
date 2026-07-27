@@ -1,0 +1,13 @@
+{
+  "name": "hermazing-touch",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HER-mazing Touch — candles, gift sets and custom engraving",
+  "scripts": {
+    "dev": "netlify dev",
+    "deploy": "netlify deploy --prod"
+  },
+  "dependencies": {
+    "stripe": "^17.5.0"
+  }
+}

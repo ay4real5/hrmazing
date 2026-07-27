@@ -97,6 +97,15 @@
       <span class="phone-dot"></span>571-575-7174
     </a>
 
+    <button class="cart-btn" id="cartOpen" aria-label="Open basket">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 7h12l-1.2 12.1a2 2 0 0 1-2 1.9H9.2a2 2 0 0 1-2-1.9L6 7z"
+              fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M9 9V6a3 3 0 0 1 6 0v3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      </svg>
+      <span class="cart-badge" id="cartBadge" hidden>0</span>
+    </button>
+
     <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span>
     </button>
@@ -390,7 +399,7 @@
 
         <div class="product-grid" id="candleGrid">
           <!-- candle cards injected pattern: each uses the jar SVG with its own wax tone -->
-          <article class="pcard reveal tilt" data-delay="1" style="--wax:#F0E2C8;--tint:#E8C79A">
+          <article data-sku="candle-vanilla" class="pcard reveal tilt" data-delay="1" style="--wax:#F0E2C8;--tint:#E8C79A">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Vanilla Bean Bliss</h3>
@@ -399,7 +408,7 @@
             </div>
           </article>
 
-          <article class="pcard reveal tilt" data-delay="2" style="--wax:#DCCDE8;--tint:#B9A3CE">
+          <article data-sku="candle-lavender" class="pcard reveal tilt" data-delay="2" style="--wax:#DCCDE8;--tint:#B9A3CE">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Lavender Fields</h3>
@@ -408,7 +417,7 @@
             </div>
           </article>
 
-          <article class="pcard reveal tilt" data-delay="3" style="--wax:#E3EBF0;--tint:#AFC4D2">
+          <article data-sku="candle-linen" class="pcard reveal tilt" data-delay="3" style="--wax:#E3EBF0;--tint:#AFC4D2">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Fresh Linen</h3>
@@ -417,7 +426,7 @@
             </div>
           </article>
 
-          <article class="pcard reveal tilt" data-delay="1" style="--wax:#DDEDE6;--tint:#A8CFC2">
+          <article data-sku="candle-coconut" class="pcard reveal tilt" data-delay="1" style="--wax:#DDEDE6;--tint:#A8CFC2">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Coconut &amp; Sea Salt</h3>
@@ -426,7 +435,7 @@
             </div>
           </article>
 
-          <article class="pcard reveal tilt" data-delay="2" style="--wax:#EAC49B;--tint:#D09B60">
+          <article data-sku="candle-cinnamon" class="pcard reveal tilt" data-delay="2" style="--wax:#EAC49B;--tint:#D09B60">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Cinnamon Sugar</h3>
@@ -435,7 +444,7 @@
             </div>
           </article>
 
-          <article class="pcard reveal tilt" data-delay="3" style="--wax:#C99AA6;--tint:#A8677B">
+          <article data-sku="candle-cherry" class="pcard reveal tilt" data-delay="3" style="--wax:#C99AA6;--tint:#A8677B">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Black Cherry Merlot</h3>
@@ -456,7 +465,7 @@
         </header>
 
         <div class="season-grid" id="seasonGrid">
-          <article class="scard reveal feature" data-delay="1" style="--wax:#E0A96D;--tint:#C4762A">
+          <article data-sku="candle-fall" class="scard reveal feature" data-delay="1" style="--wax:#E0A96D;--tint:#C4762A">
             <span class="season-tag">Fall</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -466,7 +475,7 @@
             </div>
           </article>
 
-          <article class="scard reveal" data-delay="2" style="--wax:#CFE3F0;--tint:#84AECB">
+          <article data-sku="candle-winter" class="scard reveal" data-delay="2" style="--wax:#CFE3F0;--tint:#84AECB">
             <span class="season-tag">Winter</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -476,7 +485,7 @@
             </div>
           </article>
 
-          <article class="scard reveal" data-delay="3" style="--wax:#FAE3A6;--tint:#E0B94E">
+          <article data-sku="candle-summer" class="scard reveal" data-delay="3" style="--wax:#FAE3A6;--tint:#E0B94E">
             <span class="season-tag">Summer</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -486,7 +495,7 @@
             </div>
           </article>
 
-          <article class="scard reveal" data-delay="4" style="--wax:#F3CFDF;--tint:#D993B4">
+          <article data-sku="candle-spring" class="scard reveal" data-delay="4" style="--wax:#F3CFDF;--tint:#D993B4">
             <span class="season-tag">Spring</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -535,7 +544,7 @@
         </div>
 
         <div class="product-grid" id="giftGrid">
-          <article class="pcard gcard reveal tilt" data-occasions="mothers-day just-because" data-art="basket" style="--tint:#D69B7E">
+          <article data-sku="gift-rose-basket" class="pcard gcard reveal tilt" data-occasions="mothers-day just-because" data-art="basket" style="--tint:#D69B7E">
             <span class="type-tag">Gift Basket</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -545,7 +554,7 @@
             </div>
           </article>
 
-          <article class="pcard gcard reveal tilt" data-occasions="fathers-day just-because" data-art="box" style="--tint:#8A5A38">
+          <article data-sku="gift-dad-box" class="pcard gcard reveal tilt" data-occasions="fathers-day just-because" data-art="box" style="--tint:#8A5A38">
             <span class="type-tag">Gift Box</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -555,7 +564,7 @@
             </div>
           </article>
 
-          <article class="pcard gcard reveal tilt" data-occasions="graduation" data-art="money" style="--tint:#6E8C5A">
+          <article data-sku="gift-grad-money" class="pcard gcard reveal tilt" data-occasions="graduation" data-art="money" style="--tint:#6E8C5A">
             <span class="type-tag">Money Bouquet</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -565,7 +574,7 @@
             </div>
           </article>
 
-          <article class="pcard gcard reveal tilt" data-occasions="birthday just-because" data-art="box" style="--tint:#C08A6A">
+          <article data-sku="gift-birthday-box" class="pcard gcard reveal tilt" data-occasions="birthday just-because" data-art="box" style="--tint:#C08A6A">
             <span class="type-tag">Gift Box</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -575,7 +584,7 @@
             </div>
           </article>
 
-          <article class="pcard gcard reveal tilt" data-occasions="just-because" data-art="bouquet" style="--tint:#E0A8B4">
+          <article data-sku="gift-just-because" class="pcard gcard reveal tilt" data-occasions="just-because" data-art="bouquet" style="--tint:#E0A8B4">
             <span class="type-tag">Flower Bouquet</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -585,7 +594,7 @@
             </div>
           </article>
 
-          <article class="pcard gcard reveal tilt" data-occasions="mothers-day" data-art="money" style="--tint:#C9A227">
+          <article data-sku="gift-mom-money" class="pcard gcard reveal tilt" data-occasions="mothers-day" data-art="money" style="--tint:#C9A227">
             <span class="type-tag">Money Bouquet</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -595,7 +604,7 @@
             </div>
           </article>
 
-          <article class="pcard gcard reveal tilt" data-occasions="fathers-day" data-art="basket" style="--tint:#7A5A3A">
+          <article data-sku="gift-fathers-fav" class="pcard gcard reveal tilt" data-occasions="fathers-day" data-art="basket" style="--tint:#7A5A3A">
             <span class="type-tag">Gift Basket</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -605,7 +614,7 @@
             </div>
           </article>
 
-          <article class="pcard gcard reveal tilt" data-occasions="graduation just-because" data-art="box" style="--tint:#9A7BA8">
+          <article data-sku="gift-next-chapter" class="pcard gcard reveal tilt" data-occasions="graduation just-because" data-art="box" style="--tint:#9A7BA8">
             <span class="type-tag">Gift Box</span>
             <div class="pcard-art"></div>
             <div class="pcard-body">
@@ -756,7 +765,7 @@
     <section class="band band-ivory">
       <div class="wrap">
         <div class="product-grid" id="engraveGrid">
-          <article class="pcard ecard reveal tilt" data-art="tag" style="--tint:#B9A88E">
+          <article data-sku="eng-dog-tag" class="pcard ecard reveal tilt" data-art="tag" style="--tint:#B9A88E">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Dog Tags</h3>
@@ -765,7 +774,7 @@
             </div>
           </article>
 
-          <article class="pcard ecard reveal tilt" data-art="tumbler" style="--tint:#A8B4BC">
+          <article data-sku="eng-tumbler" class="pcard ecard reveal tilt" data-art="tumbler" style="--tint:#A8B4BC">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Tumblers</h3>
@@ -774,7 +783,7 @@
             </div>
           </article>
 
-          <article class="pcard ecard reveal tilt" data-art="mug" style="--tint:#D8C6B0">
+          <article data-sku="eng-mug" class="pcard ecard reveal tilt" data-art="mug" style="--tint:#D8C6B0">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Mugs</h3>
@@ -783,7 +792,7 @@
             </div>
           </article>
 
-          <article class="pcard ecard reveal tilt" data-art="emblem" style="--tint:#9C6A44">
+          <article data-sku="eng-emblem" class="pcard ecard reveal tilt" data-art="emblem" style="--tint:#9C6A44">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Family Name Emblems</h3>
@@ -792,7 +801,7 @@
             </div>
           </article>
 
-          <article class="pcard ecard reveal tilt" data-art="mat" style="--tint:#B5854A">
+          <article data-sku="eng-doormat" class="pcard ecard reveal tilt" data-art="mat" style="--tint:#B5854A">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Doormats</h3>
@@ -801,7 +810,7 @@
             </div>
           </article>
 
-          <article class="pcard ecard reveal tilt" data-art="wood" style="--tint:#8A5A38">
+          <article data-sku="eng-wood" class="pcard ecard reveal tilt" data-art="wood" style="--tint:#8A5A38">
             <div class="pcard-art"></div>
             <div class="pcard-body">
               <h3>Decorative Wood Carvings</h3>
@@ -944,10 +953,45 @@
   </div>
 </footer>
 
+<!-- ============ cart drawer ============ -->
+<div class="cart-scrim" id="cartScrim"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Your basket">
+  <header class="cart-head">
+    <h2>Your Basket</h2>
+    <button id="cartClose" class="cart-close" aria-label="Close basket">&times;</button>
+  </header>
+
+  <div class="cart-body" id="cartBody"></div>
+
+  <div class="cart-foot">
+    <p class="cart-notice" id="cartNotice" hidden>
+      Your basket contains fresh or cash items, so this order is
+      <strong>local delivery or pickup only</strong> — these can't be posted.
+    </p>
+
+    <div class="cart-ship">
+      <span>Delivery options</span>
+      <ul id="cartShipping"></ul>
+    </div>
+
+    <div class="cart-total">
+      <span>Subtotal</span>
+      <strong id="cartSubtotal">$0.00</strong>
+    </div>
+    <p class="cart-vat">Shipping chosen at checkout. Taxes and any import duties calculated there.</p>
+
+    <button class="btn btn-gold cart-checkout" id="cartCheckout" disabled>Checkout</button>
+    <button class="cart-clear" id="cartClear" type="button">Empty basket</button>
+    <p class="cart-alt">Prefer to talk it through? <a href="sms:5715757174">Text 571-575-7174</a></p>
+  </div>
+</aside>
+
 <a href="sms:5715757174" class="fab" aria-label="Text us">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" fill="currentColor"/></svg>
 </a>
 
+<script src="shared/catalog.js"></script>
+<script src="js/cart.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>

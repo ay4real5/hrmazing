@@ -449,6 +449,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ============ inject price + add-to-cart onto product cards ============ */
+  const C = window.CATALOG;
+  if (C) {
+    document.querySelectorAll('[data-sku]').forEach(card => {
+      const p = C.bySku[card.dataset.sku];
+      const body = card.querySelector('.pcard-body');
+      if (!p || !body) return;
+
+      // engraved goods need the wording before they can be added
+      if (p.personalise) {
+        const field = document.createElement('label');
+        field.className = 'pcard-personalise';
+        field.innerHTML = '<span>Engraving (name, date or wording)</span>';
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.maxLength = 60;
+        input.placeholder = 'e.g. The Carters — Est. 2016';
+        field.appendChild(input);
+        body.appendChild(field);
+      }
+
+      if (p.shipping === 'local') {
+        const flag = document.createElement('p');
+        flag.className = 'pcard-local';
+        flag.textContent = 'Local delivery or pickup only';
+        body.appendChild(flag);
+      }
+
+      const buy = document.createElement('div');
+      buy.className = 'pcard-buy';
+
+      const price = document.createElement('span');
+      price.className = 'pcard-price';
+      price.textContent = C.money(p.price);
+
+      const btn = document.createElement('button');
+      btn.className = 'pcard-add';
+      btn.dataset.addSku = p.sku;
+      btn.textContent = 'Add to Basket';
+
+      buy.append(price, btn);
+      body.appendChild(buy);
+    });
+  }
+
   /* ============ shop-by-occasion tiles -> gift tab + filter ============ */
   function applyOccasion(occasion) {
     const chip = document.querySelector(`.chip[data-filter="${occasion}"]`);

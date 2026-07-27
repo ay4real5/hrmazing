@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You | HER-mazing Touch</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<style>
+  body{padding-top:0;min-height:100svh;display:grid;place-items:center;
+       background:radial-gradient(ellipse 70% 55% at 50% 40%,rgba(232,163,61,.16),transparent 70%),
+                  linear-gradient(170deg,var(--espresso-800),var(--espresso-900));}
+  .result{width:min(620px,92vw);text-align:center;padding:40px 0}
+  .result img{width:170px;height:auto;margin:0 auto 22px}
+  .result h1{font-family:var(--script);font-size:clamp(2.4rem,7vw,3.6rem);line-height:1.4;
+             background:linear-gradient(100deg,var(--gold-100),var(--gold-300) 45%,var(--gold-400) 60%,var(--gold-100));
+             -webkit-background-clip:text;background-clip:text;color:transparent}
+  .result p{color:var(--on-dark-soft);font-size:1rem;line-height:1.85;margin:0 auto 28px;max-width:52ch}
+</style>
+</head>
+<body>
+  <main class="result">
+    <div class="gold-frame">
+      <img src="images/logo.webp" alt="HER-mazing Touch">
+      <p class="eyebrow">Order Received</p>
+      <h1>Thank You</h1>
+      <span class="flourish lg" aria-hidden="true"></span>
+      <p>Thank you — your order is confirmed and a receipt is on its way to your email. We'll be in touch shortly to confirm the details and, for anything personalised, to check the wording before we make it.</p>
+      <div class="hero-cta">
+        <a href="index.html" class="btn btn-gold">Back to the Shop</a>
+        <a href="sms:5715757174" class="btn btn-ghost">Text 571-575-7174</a>
+      </div>
+    </div>
+  </main>
+  <script>
+    // a completed order should not leave items sitting in the basket
+    if (location.pathname.endsWith('success.html')) {
+      try { localStorage.removeItem('hermazing.cart.v1'); } catch (e) {}
+    }
+  </script>
+</body>
+</html>
