@@ -71,6 +71,40 @@
     { id: 'intl',     label: 'International shipping',  amount: 3900, scope: 'worldwide', days: [7, 21], blurb: 'Duties and import taxes are payable by the recipient' }
   ];
 
+  /* Greeting cards. One is complimentary with every order; the wording is
+     written by hand, so the customer picks an occasion and supplies the message. */
+  const CARD_STYLES = [
+    'Birthday', 'Congratulations', 'Just Because', 'With Love',
+    'Thank You', 'Wedding', 'Housewarming', 'New Baby', 'Sympathy', 'Holiday'
+  ];
+
+  /* What a customer actually receives — shown on the product quick-view. */
+  const CONTENTS = {
+    'gift-rose-basket': ['Wicker keepsake basket', 'Blush roses & white daisies',
+                         'Chocolate-dipped strawberries', 'Keepsake mug', 'Handwritten card'],
+    'gift-dad-box':     ['Signature gift box', 'Engraved tumbler', 'Selection of treats',
+                         'Hand-poured candle', 'Handwritten card'],
+    'gift-grad-money':  ['Cash bouquet (amount of your choosing)', 'Mini graduation cap',
+                         'Satin ribbon & wrap', 'Handwritten card'],
+    'gift-birthday-box':['Signature gift box', 'Hand-poured candle', 'Sweet treats',
+                         'Satin bow & gold trim', 'Handwritten card'],
+    'gift-just-because':['Fresh roses & daisies', 'Eucalyptus greenery',
+                         'Ribbon-tied wrap', 'Handwritten card'],
+    'gift-mom-money':   ['Cash bouquet (amount of your choosing)', 'Fresh roses',
+                         'Gold ribbon', 'Handwritten card'],
+    'gift-fathers-fav': ['Wicker basket', 'Engraved mug', 'Engraved tumbler',
+                         'Selection of treats', 'Handwritten card'],
+    'gift-next-chapter':['Signature gift box', 'Keepsake candle',
+                         'Personalised note', 'Satin bow & gold trim']
+  };
+
+  /* Shown as a badge on cards and as a "Best Sellers" filter. */
+  const BEST_SELLERS = ['candle-fall', 'gift-rose-basket', 'eng-tumbler', 'gift-mom-money', 'eng-emblem'];
+  BEST_SELLERS.forEach(sku => { const p = PRODUCTS.find(x => x.sku === sku); if (p) p.bestSeller = true; });
+  Object.entries(CONTENTS).forEach(([sku, list]) => {
+    const p = PRODUCTS.find(x => x.sku === sku); if (p) p.contents = list;
+  });
+
   const bySku = Object.fromEntries(PRODUCTS.map(p => [p.sku, p]));
 
   /** Format cents as a display price. */
@@ -88,6 +122,6 @@
     return hasLocalOnly(lines) ? SHIPPING.filter(s => s.scope === 'local') : SHIPPING;
   }
 
-  return { CURRENCY, PRODUCTS, SHIPPING, bySku, money, hasLocalOnly, shippingFor,
-           PRICES_ARE_PLACEHOLDERS: true };
+  return { CURRENCY, PRODUCTS, SHIPPING, CARD_STYLES, bySku, money,
+           hasLocalOnly, shippingFor, PRICES_ARE_PLACEHOLDERS: true };
 });

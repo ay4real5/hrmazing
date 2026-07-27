@@ -27,12 +27,13 @@ exports.handler = async (event) => {
     });
   }
 
-  let lines;
+  let lines, gift;
   try {
-    ({ lines } = JSON.parse(event.body || '{}'));
+    ({ lines, gift } = JSON.parse(event.body || '{}'));
   } catch {
     return json(400, { error: 'Malformed request.' });
   }
+  gift = gift && typeof gift === 'object' ? gift : {};
 
   if (!Array.isArray(lines) || !lines.length) {
     return json(400, { error: 'Your basket is empty.' });
@@ -86,25 +87,40 @@ exports.handler = async (event) => {
     event.headers.origin ||
     (event.headers.host ? `https://${event.headers.host}` : '');
 
+  const clean = (v, n) => (typeof v === 'string' ? v.trim().slice(0, n) : '');
+  const cardStyle   = clean(gift.cardStyle, 40);
+  const cardMessage = clean(gift.cardMessage, 200);
+  // "Send it without their address" — we collect the recipient's details
+  // afterwards, so Stripe must not demand a shipping address up front.
+  const noAddress   = gift.noAddress === true;
+
   try {
     const stripe = Stripe(key);
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: items,
-      shipping_options: shipping,
-      shipping_address_collection: {
-        // cash + perishables never leave the country
-        allowed_countries: localOnly ? ['US'] : SHIPPING_COUNTRIES
-      },
+      // a surprise gift has no address yet, so shipping is quoted separately
+      ...(noAddress ? {} : {
+        shipping_options: shipping,
+        shipping_address_collection: {
+          // cash + perishables never leave the country
+          allowed_countries: localOnly ? ['US'] : SHIPPING_COUNTRIES
+        }
+      }),
       phone_number_collection: { enabled: true },
       billing_address_collection: 'auto',
-      custom_fields: [{
-        key: 'gift_message',
-        label: { type: 'custom', custom: 'Gift message (optional)' },
+      custom_fields: noAddress ? [{
+        key: 'recipient_contact',
+        label: { type: 'custom', custom: "Recipient's phone or email" },
         type: 'text',
-        optional: true
-      }],
-      metadata: { local_only: String(localOnly) },
+        optional: false
+      }] : [],
+      metadata: {
+        local_only: String(localOnly),
+        no_address: String(noAddress),
+        card_style: cardStyle,
+        card_message: cardMessage
+      },
       success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cancel.html`
     });

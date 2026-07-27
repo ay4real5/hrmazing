@@ -64,6 +64,23 @@
     els.checkout = document.getElementById('cartCheckout');
     els.notice   = document.getElementById('cartNotice');
     els.shipList = document.getElementById('cartShipping');
+    els.extras   = document.getElementById('cartExtras');
+    els.cardStyle= document.getElementById('cardStyle');
+    els.cardMsg  = document.getElementById('cardMessage');
+    els.noAddr   = document.getElementById('noAddress');
+    els.noAddrHint = document.getElementById('noAddressHint');
+
+    // greeting-card occasions come from the catalogue
+    if (els.cardStyle && !els.cardStyle.options.length) {
+      C.CARD_STYLES.forEach(s => {
+        const o = document.createElement('option');
+        o.value = o.textContent = s;
+        els.cardStyle.appendChild(o);
+      });
+    }
+    els.noAddr?.addEventListener('change', () => {
+      els.noAddrHint.hidden = !els.noAddr.checked;
+    });
   }
 
   function open()  { els.drawer.classList.add('open'); els.scrim.classList.add('show'); document.body.style.overflow = 'hidden'; }
@@ -87,6 +104,7 @@
       els.checkout.disabled = true;
       els.notice.hidden = true;
       els.shipList.innerHTML = '';
+      if (els.extras) els.extras.hidden = true;
       return;
     }
 
@@ -126,6 +144,7 @@
 
     els.subtotal.textContent = C.money(subtotal());
     els.checkout.disabled = false;
+    if (els.extras) els.extras.hidden = false;
 
     const localOnly = C.hasLocalOnly(lines);
     els.notice.hidden = !localOnly;
@@ -142,6 +161,15 @@
   const NOT_CONNECTED =
     'Online payment isn’t switched on yet — you can still order by text and we’ll take payment directly.';
 
+  /** Greeting card + "no address" choices, collected at send time. */
+  function giftOptions() {
+    return {
+      cardStyle: els.cardStyle ? els.cardStyle.value : '',
+      cardMessage: els.cardMsg ? els.cardMsg.value.trim().slice(0, 200) : '',
+      noAddress: !!(els.noAddr && els.noAddr.checked)
+    };
+  }
+
   async function checkout() {
     els.checkout.disabled = true;
     els.checkout.textContent = 'Starting checkout…';
@@ -149,7 +177,7 @@
       const res = await fetch('/.netlify/functions/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lines })
+        body: JSON.stringify({ lines, gift: giftOptions() })
       });
 
       // When the function isn't deployed the server answers with an HTML error

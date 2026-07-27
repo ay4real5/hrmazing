@@ -124,6 +124,40 @@ flowers will not survive an international transit and customs.
 
 ---
 
+## Email address
+
+The site uses `hello@hermazingtouch.com` throughout — **this is a placeholder**.
+Replace it everywhere with a real address:
+
+```bash
+grep -rl "hello@hermazingtouch.com" . --exclude-dir=node_modules
+```
+
+It appears in `index.html`, `js/shop.js` and the policy pages.
+
+---
+
+## Live chat
+
+The chat widget is **not connected to a live agent**, and it does not pretend to be.
+It greets the visitor, takes their message, then hands off to text or email — and
+outside 9am–7pm Mon–Sat it says so up front rather than leaving someone waiting for
+a reply that isn't coming.
+
+To connect a real chat service (Tawk.to and Crisp both have free tiers):
+
+1. Create an account and copy their embed snippet.
+2. Paste it just before `</body>` in `index.html`.
+3. Hide the built-in launcher so there aren't two chat buttons:
+   ```css
+   .chat-launch, .chat-panel { display: none; }
+   ```
+4. Point the "Start a chat" button on the Contact tab at the provider's API instead.
+
+Opening hours live in `js/shop.js` (`isOpenNow`) — adjust if they change.
+
+---
+
 ## Still to do before launch
 
 These are business decisions, not code:

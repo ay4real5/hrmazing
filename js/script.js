@@ -489,7 +489,15 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.dataset.addSku = p.sku;
       btn.textContent = 'Add to Basket';
 
-      buy.append(price, btn);
+      const details = document.createElement('button');
+      details.className = 'pcard-details';
+      details.textContent = 'Details';
+
+      const acts = document.createElement('span');
+      acts.className = 'pcard-acts';
+      acts.append(details, btn);
+
+      buy.append(price, acts);
       body.appendChild(buy);
     });
   }

@@ -60,18 +60,14 @@
 <!-- ============ announcement bar ============ -->
 <div class="announce" id="announce">
   <div class="announce-track">
-    <span>Now taking custom orders &#8212; call or text <a href="tel:5715757174">571-575-7174</a></span>
-    <i>&#10022;</i>
-    <span>Local pickup &amp; delivery available</span>
-    <i>&#10022;</i>
-    <span>Every order arrives in our signature gold-trimmed packaging</span>
-    <i>&#10022;</i>
-    <span>Now taking custom orders &#8212; call or text <a href="tel:5715757174">571-575-7174</a></span>
-    <i>&#10022;</i>
-    <span>Local pickup &amp; delivery available</span>
-    <i>&#10022;</i>
-    <span>Every order arrives in our signature gold-trimmed packaging</span>
-    <i>&#10022;</i>
+    <span>Complimentary greeting card with every order</span><i>&#10022;</i>
+    <span>Free local pickup</span><i>&#10022;</i>
+    <span>Worldwide shipping on candles &amp; engraved keepsakes</span><i>&#10022;</i>
+    <span>Every order arrives in our signature gold-trimmed packaging</span><i>&#10022;</i>
+    <span>Complimentary greeting card with every order</span><i>&#10022;</i>
+    <span>Free local pickup</span><i>&#10022;</i>
+    <span>Worldwide shipping on candles &amp; engraved keepsakes</span><i>&#10022;</i>
+    <span>Every order arrives in our signature gold-trimmed packaging</span><i>&#10022;</i>
   </div>
 </div>
 
@@ -93,9 +89,7 @@
       <button class="tab-btn" data-tab="contact" role="tab" aria-selected="false">Contact</button>
     </nav>
 
-    <a class="header-phone" href="tel:5715757174">
-      <span class="phone-dot"></span>571-575-7174
-    </a>
+    <button class="header-help" data-tab-link="contact">Help</button>
 
     <button class="cart-btn" id="cartOpen" aria-label="Open basket">
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -151,8 +145,8 @@
             made for the people who deserve something unforgettable.
           </p>
           <div class="hero-cta reveal" data-delay="4">
-            <a href="tel:5715757174" class="btn btn-gold">Call to Order</a>
-            <a href="sms:5715757174" class="btn btn-ghost">Send a Text</a>
+            <button class="btn btn-gold" data-tab-link="gifts">Shop Gifts</button>
+            <button class="btn btn-ghost" data-scroll-to="builder" data-tab-link="gifts">Build a Basket</button>
           </div>
         </div>
       </div>
@@ -329,6 +323,84 @@
       </div>
     </section>
 
+    <!-- corporate gifting -->
+    <section class="band band-espresso corporate" id="corporate">
+      <div class="wrap">
+        <header class="band-head reveal">
+          <p class="eyebrow">For Business</p>
+          <h2 class="band-title light">Corporate &amp; Bulk Gifting</h2>
+          <span class="flourish" aria-hidden="true"></span>
+          <p class="page-sub">Client thank-yous, staff appreciation, closing gifts and event
+             favours — the same handmade quality, at whatever quantity you need.</p>
+        </header>
+
+        <div class="use-cases">
+          <span class="use-case reveal" data-delay="1">Employee Appreciation</span>
+          <span class="use-case reveal" data-delay="1">Client Thank-Yous</span>
+          <span class="use-case reveal" data-delay="2">Onboarding &amp; Welcome Kits</span>
+          <span class="use-case reveal" data-delay="2">Closing Gifts</span>
+          <span class="use-case reveal" data-delay="3">Events &amp; Conferences</span>
+          <span class="use-case reveal" data-delay="3">Holiday Campaigns</span>
+        </div>
+
+        <div class="tiers">
+          <article class="tier reveal" data-delay="1">
+            <p class="tier-range">1 &ndash; 9 gifts</p>
+            <h3>Standard Checkout</h3>
+            <p>Order straight from the shop, or build a basket. One address per order.</p>
+            <button class="btn btn-ghost" data-tab-link="gifts">Shop Gifts</button>
+          </article>
+          <article class="tier reveal featured" data-delay="2">
+            <span class="split-tag">Most Popular</span>
+            <p class="tier-range">10 &ndash; 100 gifts</p>
+            <h3>Bulk Order</h3>
+            <p>Send us a recipient list and we'll handle the rest — matching baskets,
+               personalised engraving, delivered or shipped to each address.</p>
+            <button class="btn btn-gold" data-scroll-to="corpForm">Enquire</button>
+          </article>
+          <article class="tier reveal" data-delay="3">
+            <p class="tier-range">100+ gifts</p>
+            <h3>Ongoing Programme</h3>
+            <p>Repeat gifting through the year with an agreed set, a set budget
+               and a standing schedule.</p>
+            <button class="btn btn-ghost" data-scroll-to="corpForm">Talk To Us</button>
+          </article>
+        </div>
+
+        <div class="corp-form-wrap reveal" id="corpForm">
+          <div class="gold-frame">
+            <h3 class="corp-title">Have a project in mind?</h3>
+            <p class="corp-sub">Tell us roughly what you need and we'll come back with options and pricing.</p>
+            <form class="corp-form" id="corporateForm">
+              <div class="cf-row">
+                <label><span>Your name</span><input type="text" name="name" required maxlength="80"></label>
+                <label><span>Company</span><input type="text" name="company" maxlength="80"></label>
+              </div>
+              <div class="cf-row">
+                <label><span>Email</span><input type="email" name="email" required maxlength="120"></label>
+                <label><span>Phone (optional)</span><input type="tel" name="phone" maxlength="40"></label>
+              </div>
+              <div class="cf-row">
+                <label><span>Roughly how many gifts?</span>
+                  <select name="quantity">
+                    <option>1 – 9</option><option>10 – 25</option><option>26 – 50</option>
+                    <option>51 – 100</option><option>100+</option>
+                  </select>
+                </label>
+                <label><span>Needed by</span><input type="text" name="needBy" placeholder="e.g. mid-December" maxlength="60"></label>
+              </div>
+              <label class="cf-full"><span>What do you have in mind?</span>
+                <textarea name="message" rows="4" maxlength="900"
+                  placeholder="Budget per gift, whether you'd like engraving, delivery or shipping…"></textarea>
+              </label>
+              <button type="submit" class="btn btn-gold">Send Enquiry</button>
+              <p class="cf-note" id="corpNote" role="status"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- signature packaging -->
     <section class="band band-ivory packaging">
       <div class="wrap packaging-grid">
@@ -368,7 +440,7 @@
     <div class="cta-strip">
       <div class="wrap cta-inner reveal">
         <h2>Let's make something HER-mazing.</h2>
-        <p>No online checkout — just a real conversation about the perfect gift.</p>
+        <p>Shop the collection online, or tell us what you're picturing and we'll build it.</p>
         <div class="hero-cta">
           <a href="tel:5715757174" class="btn btn-gold">Call 571-575-7174</a>
           <a href="sms:5715757174" class="btn btn-ghost">Text Us</a>
@@ -534,8 +606,27 @@
 
     <section class="band band-ivory">
       <div class="wrap">
+        <div class="shop-bar reveal">
+          <label class="shop-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
+            <input type="search" id="shopSearch" placeholder="Search gifts…" aria-label="Search gifts">
+          </label>
+          <label class="shop-sort">
+            <span>Sort</span>
+            <select id="shopSort">
+              <option value="featured">Featured</option>
+              <option value="best">Best sellers</option>
+              <option value="low">Price: low to high</option>
+              <option value="high">Price: high to low</option>
+              <option value="az">Name: A–Z</option>
+            </select>
+          </label>
+          <p class="shop-count" id="shopCount" role="status"></p>
+        </div>
+
         <div class="chips reveal" role="group" aria-label="Filter by occasion">
           <button class="chip is-active" data-filter="all">All Occasions</button>
+          <button class="chip" data-filter="best">Best Sellers</button>
           <button class="chip" data-filter="mothers-day">Mother's Day</button>
           <button class="chip" data-filter="fathers-day">Father's Day</button>
           <button class="chip" data-filter="birthday">Birthday</button>
@@ -727,8 +818,8 @@
               <dl class="summary-list" id="summaryList">
                 <p class="summary-empty" id="summaryEmpty">Nothing picked yet — start with a base above.</p>
               </dl>
-              <p class="summary-note">No prices online — every basket is built to order, so we'll
-                 text you back with a quote and a photo before anything is made.</p>
+              <p class="summary-note">Custom baskets are quoted individually — send us your picks and
+                 we'll come back with a price and a photo before anything is made.</p>
               <a class="btn btn-gold summary-send" id="summarySend" href="sms:5715757174">Send My Basket</a>
               <button class="summary-reset" id="summaryReset" type="button">Start over</button>
             </div>
@@ -842,22 +933,42 @@
         <p class="eyebrow reveal">Let's Talk</p>
         <h1 class="page-title reveal" data-delay="1">Get In Touch</h1>
         <span class="flourish lg reveal" data-delay="2" aria-hidden="true">&#10087;</span>
-        <p class="page-sub reveal" data-delay="3">No carts, no checkout queues. Just tell us what you need.</p>
+        <p class="page-sub reveal" data-delay="3">Three ways to reach us — whichever suits you best.</p>
       </div>
     </div>
 
     <section class="band band-ivory">
       <div class="wrap">
-        <div class="contact-panel reveal">
-          <div class="gold-frame inner">
-            <p class="contact-label">Call or Text</p>
-            <a class="contact-number" href="tel:5715757174">571-575-7174</a>
-            <span class="flourish" aria-hidden="true">&#10087;</span>
-            <div class="hero-cta">
-              <a href="tel:5715757174" class="btn btn-gold">Call Now</a>
-              <a href="sms:5715757174" class="btn btn-ghost">Send a Text</a>
-            </div>
-          </div>
+        <div class="channels">
+          <article class="channel reveal" data-delay="1">
+            <span class="channel-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            </span>
+            <h3>Email</h3>
+            <p>Best for detailed requests, engraving wording and corporate enquiries.</p>
+            <a class="channel-link" href="mailto:hello@hermazingtouch.com">hello@hermazingtouch.com</a>
+            <span class="channel-meta">We reply within 24 hours</span>
+          </article>
+
+          <article class="channel reveal featured" data-delay="2">
+            <span class="channel-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 1 1-3.2-6.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 20l1.4-3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="12" r="1" fill="currentColor"/><circle cx="12.5" cy="12" r="1" fill="currentColor"/><circle cx="16" cy="12" r="1" fill="currentColor"/></svg>
+            </span>
+            <h3>Live Chat</h3>
+            <p>Quickest way to get an answer while you're choosing something.</p>
+            <button class="channel-link" id="chatOpen">Start a chat</button>
+            <span class="channel-meta" id="chatHours">Mon–Sat, 9am–7pm</span>
+          </article>
+
+          <article class="channel reveal" data-delay="3">
+            <span class="channel-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="18" r="1" fill="currentColor"/></svg>
+            </span>
+            <h3>Text</h3>
+            <p>Send a photo of what you're picturing and we'll work from it.</p>
+            <a class="channel-link" href="sms:5715757174">571-575-7174</a>
+            <span class="channel-meta">Texts answered fastest</span>
+          </article>
         </div>
 
         <div class="info-grid">
@@ -878,24 +989,26 @@
           </div>
         </div>
 
-        <div class="faq reveal">
+        <div class="faq reveal" id="faq">
           <header class="band-head">
             <p class="eyebrow dark">Good To Know</p>
             <h2 class="band-title">Common Questions</h2>
             <span class="flourish" aria-hidden="true"></span>
           </header>
 
+          <p class="faq-cat">Ordering</p>
           <details class="faq-item">
             <summary>How do I place an order?</summary>
             <p>Call or text <a href="tel:5715757174">571-575-7174</a> with what you have in mind, or use
                the <button class="linklike" data-tab-link="gifts" data-scroll-to="builder">Build Your Own Basket</button>
-               tool to send us your picks in one message. There's no checkout on the site — every order
-               starts with a real conversation.</p>
+               tool to send us your picks in one message. Ready-made items can be bought straight from
+               the shop; custom baskets are quoted first.</p>
           </details>
 
           <details class="faq-item">
-            <summary>Why aren't prices listed?</summary>
-            <p>Almost everything is made to order, so the price depends on the size of the basket, what
+            <summary>Why are custom baskets not priced online?</summary>
+            <p>Everything in the shop has a price and can be bought directly. Custom baskets built with
+               the basket builder are quoted individually, because the price depends on the size, what
                goes in it and how much engraving is involved. Send us your picks and we'll come straight
                back with a quote.</p>
           </details>
@@ -912,12 +1025,56 @@
                few treats is what we build most often — the basket builder is set up to do exactly that.</p>
           </details>
 
+          <p class="faq-cat">Delivery &amp; Shipping</p>
           <details class="faq-item">
             <summary>Do you deliver?</summary>
             <p>Local pickup and delivery are both available, and we can usually arrange shipping for
                engraved pieces. Ask when you get in touch and we'll sort out the best option for you.</p>
           </details>
 
+
+          <details class="faq-item">
+            <summary>Do you ship internationally?</summary>
+            <p>Candles, engraved keepsakes and non-perishable gift boxes ship worldwide.
+               Fresh flowers, chocolate-dipped strawberries and money bouquets are
+               <strong>local delivery or pickup only</strong> — fresh items won't survive the
+               journey, and posted cash isn't insurable. The basket applies this automatically:
+               if your order contains one of those, only local options are offered at checkout.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Can I choose the delivery date?</summary>
+            <p>Yes — add the date you need it in the notes at checkout, or tell us when you get
+               in touch. For dated occasions it's always worth asking early so we can confirm
+               the date is workable before you order.</p>
+          </details>
+
+          <p class="faq-cat">Payment &amp; Returns</p>
+
+          <details class="faq-item">
+            <summary>What payment methods do you accept?</summary>
+            <p>Card payments (Visa, Mastercard, American Express and Discover) plus Apple Pay and
+               Google Pay, handled securely by Stripe. Card details are entered on Stripe's own
+               page and never touch this website.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>What is your returns policy?</summary>
+            <p>Please see our <a href="returns.html">returns page</a> for the full details.
+               In short: unopened, non-personalised items can be returned, but personalised
+               engraving and perishable items can't be resold and so are excluded — which is
+               standard for handmade and made-to-order goods.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Do you do corporate or bulk orders?</summary>
+            <p>Yes — client gifts, staff appreciation, closing gifts and event favours, with
+               matching baskets and personalised engraving across the whole batch.
+               <button class="linklike" data-tab-link="home" data-scroll-to="corpForm">Send us the details</button>
+               and we'll come back with options and pricing.</p>
+          </details>
+
+          <p class="faq-cat">Timing</p>
           <details class="faq-item">
             <summary>How much notice do you need?</summary>
             <p>It depends on the piece and how busy the season is — engraving and larger baskets need more
@@ -940,18 +1097,91 @@
       <p class="footer-tag">Candles &#183; Gift Sets &#183; Custom Engraving</p>
     </div>
 
-    <nav class="footer-nav">
-      <button data-tab-link="home">Home</button>
-      <button data-tab-link="candles">Candles</button>
-      <button data-tab-link="gifts">Gift Sets</button>
-      <button data-tab-link="engraving">Engraving</button>
-      <button data-tab-link="contact">Contact</button>
-    </nav>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <button data-tab-link="candles">Candles</button>
+        <button data-tab-link="gifts">Gift Sets</button>
+        <button data-tab-link="engraving">Custom Engraving</button>
+        <button data-tab-link="gifts" data-scroll-to="builder">Build a Basket</button>
+      </div>
+      <div class="footer-col">
+        <h4>For Business</h4>
+        <button data-tab-link="home" data-scroll-to="corporate">Corporate Gifting</button>
+        <button data-tab-link="home" data-scroll-to="corporate">Bulk Orders</button>
+        <button data-tab-link="home" data-scroll-to="corpForm">Request a Quote</button>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <button data-tab-link="contact">Contact Us</button>
+        <button data-tab-link="contact" data-scroll-to="faq">FAQ</button>
+        <a href="shipping.html">Shipping &amp; Delivery</a>
+        <a href="returns.html">Returns</a>
+      </div>
+      <div class="footer-col">
+        <h4>Get In Touch</h4>
+        <a href="mailto:hello@hermazingtouch.com">hello@hermazingtouch.com</a>
+        <a href="sms:5715757174">Text 571-575-7174</a>
+        <button id="chatOpenFooter">Live chat</button>
+        <div class="socials" aria-label="Social links">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8.5V7c0-.8.4-1.2 1.3-1.2H17V3h-2.5C11.9 3 11 4.4 11 6.6v1.9H9V12h2v9h3v-9h2.3l.4-3.5H14z" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-3.3 17.4c-.1-.7-.1-1.8.02-2.6l1.1-4.6s-.3-.6-.3-1.4c0-1.3.8-2.3 1.7-2.3.8 0 1.2.6 1.2 1.4 0 .8-.5 2.1-.8 3.3-.2 1 .5 1.7 1.5 1.7 1.8 0 3.1-1.9 3.1-4.6 0-2.4-1.7-4.1-4.2-4.1-2.9 0-4.5 2.1-4.5 4.3 0 .9.3 1.8.7 2.3.1.1.1.2.1.3l-.2.9c0 .2-.1.2-.3.1-1.2-.6-2-2.4-2-3.8 0-3.1 2.3-6 6.5-6 3.4 0 6.1 2.4 6.1 5.7 0 3.4-2.1 6.1-5.1 6.1-1 0-2-.5-2.3-1.1l-.6 2.4c-.2.9-.8 2-1.2 2.6A9 9 0 1 0 12 3z" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+    </div>
 
-    <a class="footer-phone" href="tel:5715757174">571-575-7174</a>
-    <p class="footer-copy">&copy; <span id="year"></span> HER-mazing Touch &#183; All rights reserved</p>
+    <div class="footer-pay">
+      <span>Secure payment by Stripe</span>
+      <div class="pay-badges" aria-label="Accepted payment methods">
+        <span>VISA</span><span>Mastercard</span><span>AMEX</span>
+        <span>Discover</span><span>Apple&nbsp;Pay</span><span>Google&nbsp;Pay</span>
+      </div>
+    </div>
+
+    <p class="footer-copy">
+      &copy; <span id="year"></span> HER-mazing Touch &#183; All rights reserved
+      &nbsp;&#183;&nbsp; <a href="privacy.html">Privacy</a>
+      &nbsp;&#183;&nbsp; <a href="terms.html">Terms</a>
+      &nbsp;&#183;&nbsp; <a href="shipping.html">Shipping</a>
+      &nbsp;&#183;&nbsp; <a href="returns.html">Returns</a>
+    </p>
   </div>
 </footer>
+
+<!-- ============ product quick view ============ -->
+<div class="quick-view" id="quickView" role="dialog" aria-label="Product details">
+  <div class="qv-panel">
+    <button class="qv-close" id="qvClose" aria-label="Close">&times;</button>
+    <div class="qv-body" id="qvBody"></div>
+  </div>
+</div>
+
+<!-- ============ chat widget ============ -->
+<button class="chat-launch" id="chatLaunch" aria-label="Chat with us">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M20 3H4a1.6 1.6 0 0 0-1.6 1.6v10.3A1.6 1.6 0 0 0 4 16.5h3v4.2l4.6-4.2H20a1.6 1.6 0 0 0 1.6-1.6V4.6A1.6 1.6 0 0 0 20 3z" fill="currentColor"/>
+  </svg>
+</button>
+
+<section class="chat-panel" id="chatPanel" aria-label="Chat with us">
+  <header class="chat-head">
+    <div>
+      <p class="chat-title">HER-mazing Touch</p>
+      <p class="chat-status" id="chatStatus">Checking hours…</p>
+    </div>
+    <button class="chat-close" id="chatClose" aria-label="Close chat">&times;</button>
+  </header>
+
+  <div class="chat-log" id="chatLog"></div>
+
+  <form class="chat-form" id="chatForm">
+    <input type="text" id="chatInput" placeholder="Type your message…" autocomplete="off" maxlength="400">
+    <button type="submit" aria-label="Send">
+      <svg viewBox="0 0 24 24"><path d="M3 20l18-8L3 4l3 8-3 8z" fill="currentColor"/></svg>
+    </button>
+  </form>
+</section>
 
 <!-- ============ cart drawer ============ -->
 <div class="cart-scrim" id="cartScrim"></div>
@@ -962,6 +1192,26 @@
   </header>
 
   <div class="cart-body" id="cartBody"></div>
+
+  <div class="cart-extras" id="cartExtras" hidden>
+    <label class="cx-field">
+      <span>Greeting card (included free)</span>
+      <select id="cardStyle"></select>
+    </label>
+    <label class="cx-field">
+      <span>Card message</span>
+      <textarea id="cardMessage" rows="2" maxlength="200"
+        placeholder="We'll write this by hand on the card"></textarea>
+    </label>
+    <label class="cx-check">
+      <input type="checkbox" id="noAddress">
+      <span>I don't have their address — contact the recipient for it</span>
+    </label>
+    <p class="cx-hint" id="noAddressHint" hidden>
+      We'll reach out to them for the delivery address before anything is sent,
+      and the gift stays a surprise.
+    </p>
+  </div>
 
   <div class="cart-foot">
     <p class="cart-notice" id="cartNotice" hidden>
@@ -993,5 +1243,6 @@
 <script src="shared/catalog.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/script.js"></script>
+<script src="js/shop.js"></script>
 </body>
 </html>
