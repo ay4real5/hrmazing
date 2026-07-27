@@ -449,6 +449,144 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ============ shop-by-occasion tiles -> gift tab + filter ============ */
+  function applyOccasion(occasion) {
+    const chip = document.querySelector(`.chip[data-filter="${occasion}"]`);
+    if (chip) chip.click();
+  }
+
+  document.querySelectorAll('[data-occasion]').forEach(tile => {
+    tile.addEventListener('click', () => {
+      activateTab('gifts');
+      requestAnimationFrame(() => {
+        applyOccasion(tile.dataset.occasion);
+        const grid = document.getElementById('giftGrid');
+        if (grid) {
+          const y = grid.getBoundingClientRect().top + window.scrollY - 140;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      });
+    });
+  });
+
+  /* ============ scroll-to targets (e.g. jump to the builder) ============ */
+  document.querySelectorAll('[data-scroll-to]').forEach(el => {
+    el.addEventListener('click', () => {
+      const target = document.getElementById(el.dataset.scrollTo);
+      if (!target) return;
+      // the tab switch runs first, so wait a frame for the panel to be laid out
+      setTimeout(() => {
+        const y = target.getBoundingClientRect().top + window.scrollY - 90;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }, 120);
+    });
+  });
+
+  /* ============ build-your-own-basket ============ */
+  const builder = document.getElementById('builder');
+  if (builder) {
+    const LABELS = {
+      base: 'Base', candle: 'Candles', engraving: 'Engraving',
+      extras: 'Extras', occasion: 'Occasion'
+    };
+    const picks = { base: [], candle: [], engraving: [], extras: [], occasion: [] };
+
+    const summaryList = document.getElementById('summaryList');
+    const summaryEmpty = document.getElementById('summaryEmpty');
+    const sendBtn = document.getElementById('summarySend');
+    const engraveText = document.getElementById('engraveText');
+    const recipient = document.getElementById('recipient');
+    const needBy = document.getElementById('needBy');
+
+    function buildMessage() {
+      const lines = ["Hi! I'd like to build a basket:"];
+      if (picks.base.length)      lines.push(`Base: ${picks.base.join(', ')}`);
+      if (picks.candle.length)    lines.push(`Candles: ${picks.candle.join(', ')}`);
+      if (picks.engraving.length) {
+        const txt = engraveText.value.trim();
+        lines.push(`Engraving: ${picks.engraving.join(', ')}${txt ? ` — "${txt}"` : ''}`);
+      }
+      if (picks.extras.length)    lines.push(`Extras: ${picks.extras.join(', ')}`);
+      if (picks.occasion.length)  lines.push(`Occasion: ${picks.occasion.join(', ')}`);
+      if (recipient.value.trim()) lines.push(`For: ${recipient.value.trim()}`);
+      if (needBy.value.trim())    lines.push(`Needed by: ${needBy.value.trim()}`);
+      lines.push('Could you let me know pricing? Thank you!');
+      return lines.join('\n');
+    }
+
+    function render() {
+      const groups = Object.keys(picks).filter(k => picks[k].length);
+      summaryList.querySelectorAll('.summary-row').forEach(r => r.remove());
+
+      groups.forEach(k => {
+        const row = document.createElement('div');
+        row.className = 'summary-row';
+        const dt = document.createElement('dt');
+        dt.textContent = LABELS[k];
+        const dd = document.createElement('dd');
+        let text = picks[k].join(', ');
+        if (k === 'engraving' && engraveText.value.trim()) {
+          text += ` — "${engraveText.value.trim()}"`;
+        }
+        dd.textContent = text;
+        row.append(dt, dd);
+        summaryList.appendChild(row);
+      });
+
+      const extraDetail = [
+        recipient.value.trim() && ['For', recipient.value.trim()],
+        needBy.value.trim() && ['Needed by', needBy.value.trim()]
+      ].filter(Boolean);
+
+      extraDetail.forEach(([label, val]) => {
+        const row = document.createElement('div');
+        row.className = 'summary-row';
+        const dt = document.createElement('dt'); dt.textContent = label;
+        const dd = document.createElement('dd'); dd.textContent = val;
+        row.append(dt, dd);
+        summaryList.appendChild(row);
+      });
+
+      const any = groups.length > 0;
+      summaryEmpty.hidden = any;
+      sendBtn.classList.toggle('ready', any);
+      // encodeURIComponent keeps line breaks and punctuation intact in the SMS body
+      sendBtn.href = `sms:5715757174?&body=${encodeURIComponent(buildMessage())}`;
+    }
+
+    builder.querySelectorAll('.opts').forEach(group => {
+      const key = group.dataset.group;
+      const single = group.dataset.mode === 'single';
+
+      group.querySelectorAll('.opt').forEach(opt => {
+        opt.addEventListener('click', () => {
+          const val = opt.dataset.value;
+          if (single) {
+            const already = opt.classList.contains('picked');
+            group.querySelectorAll('.opt').forEach(o => o.classList.remove('picked'));
+            picks[key] = [];
+            if (!already) { opt.classList.add('picked'); picks[key] = [val]; }
+          } else {
+            opt.classList.toggle('picked');
+            picks[key] = [...group.querySelectorAll('.opt.picked')].map(o => o.dataset.value);
+          }
+          render();
+        });
+      });
+    });
+
+    [engraveText, recipient, needBy].forEach(inp => inp.addEventListener('input', render));
+
+    document.getElementById('summaryReset').addEventListener('click', () => {
+      Object.keys(picks).forEach(k => picks[k] = []);
+      builder.querySelectorAll('.opt.picked').forEach(o => o.classList.remove('picked'));
+      [engraveText, recipient, needBy].forEach(i => i.value = '');
+      render();
+    });
+
+    render();
+  }
+
   /* ============ footer year ============ */
   const yr = document.getElementById('year');
   if (yr) yr.textContent = new Date().getFullYear();
