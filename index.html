@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HER-mazing Touch | Candles, Gift Sets &amp; Custom Engraving</title>
+<meta name="description" content="HER-mazing Touch — hand-poured scented candles, curated gift sets, and custom engraving. Call or text 571-575-7174.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%23241812%22/><path d=%22M16 6c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z%22 fill=%22%23E8A33D%22/></svg>">
+</head>
+<body>
+
+<!-- ============ shared SVG defs ============ -->
+<svg class="svg-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="fGlow" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fSoft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+    <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F6E4B0"/>
+      <stop offset="38%" stop-color="#D9B25E"/>
+      <stop offset="62%" stop-color="#B8912F"/>
+      <stop offset="100%" stop-color="#F2DCA4"/>
+    </linearGradient>
+    <linearGradient id="gGlass" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".34"/>
+      <stop offset="26%" stop-color="#ffffff" stop-opacity=".07"/>
+      <stop offset="72%" stop-color="#ffffff" stop-opacity=".03"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity=".22"/>
+    </linearGradient>
+    <linearGradient id="gFlame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF1C0"/>
+      <stop offset="45%" stop-color="#F5B94C"/>
+      <stop offset="100%" stop-color="#E07B23"/>
+    </linearGradient>
+    <radialGradient id="gHalo">
+      <stop offset="0%" stop-color="#FFC46B" stop-opacity=".85"/>
+      <stop offset="100%" stop-color="#FFC46B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+<!-- ============ preloader ============ -->
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <svg class="pre-flame" viewBox="0 0 60 80" aria-hidden="true">
+      <ellipse cx="30" cy="44" rx="26" ry="30" fill="url(#gHalo)"/>
+      <path class="flame-outer" d="M30 8 C42 26 49 37 49 47 C49 60 40 69 30 69 C20 69 11 60 11 47 C11 37 18 26 30 8Z" fill="url(#gFlame)"/>
+      <path class="flame-inner" d="M30 30 C36 40 39 45 39 50 C39 57 35 62 30 62 C25 62 21 57 21 50 C21 45 24 40 30 30Z" fill="#FFF6DA" opacity=".9"/>
+    </svg>
+    <p class="pre-name">HER-mazing Touch</p>
+  </div>
+</div>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ============ header ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+
+    <button class="brand" data-tab-link="home" aria-label="HER-mazing Touch — home">
+      <svg class="brand-flame" viewBox="0 0 40 56" aria-hidden="true">
+        <ellipse cx="20" cy="26" rx="17" ry="21" fill="url(#gHalo)" opacity=".7"/>
+        <path class="flame-outer" d="M20 5 C28 18 33 25 33 32 C33 41 27 47 20 47 C13 47 7 41 7 32 C7 25 12 18 20 5Z" fill="url(#gFlame)"/>
+        <path class="flame-inner" d="M20 21 C24 28 26 31 26 34 C26 39 23 42 20 42 C17 42 14 39 14 34 C14 31 16 28 20 21Z" fill="#FFF6DA" opacity=".92"/>
+      </svg>
+      <span class="brand-text">HER-mazing Touch</span>
+    </button>
+
+    <nav class="nav-links" id="navLinks" role="tablist" aria-label="Sections">
+      <span class="nav-indicator" id="navIndicator" aria-hidden="true"></span>
+      <button class="tab-btn is-active" data-tab="home" role="tab" aria-selected="true">Home</button>
+      <button class="tab-btn" data-tab="candles" role="tab" aria-selected="false">Candles</button>
+      <button class="tab-btn" data-tab="gifts" role="tab" aria-selected="false">Gift Sets</button>
+      <button class="tab-btn" data-tab="engraving" role="tab" aria-selected="false">Engraving</button>
+      <button class="tab-btn" data-tab="contact" role="tab" aria-selected="false">Contact</button>
+    </nav>
+
+    <a class="header-phone" href="tel:5715757174">
+      <span class="phone-dot"></span>571-575-7174
+    </a>
+
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ mobile menu ============ -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mm-inner">
+    <button class="mm-item" data-tab-link="home"><i>01</i><span>Home</span></button>
+    <button class="mm-item" data-tab-link="candles"><i>02</i><span>Candles</span></button>
+    <button class="mm-item" data-tab-link="gifts"><i>03</i><span>Gift Sets</span></button>
+    <button class="mm-item" data-tab-link="engraving"><i>04</i><span>Engraving</span></button>
+    <button class="mm-item" data-tab-link="contact"><i>05</i><span>Contact</span></button>
+    <div class="mm-foot">
+      <span class="flourish" aria-hidden="true">&#10087;</span>
+      <a href="tel:5715757174">571-575-7174</a>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ================= HOME ================= -->
+  <section class="panel is-active" data-panel="home">
+
+    <div class="hero" id="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <span class="bokeh b1"></span><span class="bokeh b2"></span><span class="bokeh b3"></span>
+        <span class="bokeh b4"></span><span class="bokeh b5"></span>
+      </div>
+      <div class="petals" id="petals" aria-hidden="true"></div>
+
+      <div class="hero-inner">
+        <div class="gold-frame">
+          <svg class="hero-flame" viewBox="0 0 60 80" aria-hidden="true">
+            <ellipse cx="30" cy="44" rx="28" ry="32" fill="url(#gHalo)"/>
+            <path class="flame-outer" d="M30 8 C42 26 49 37 49 47 C49 60 40 69 30 69 C20 69 11 60 11 47 C11 37 18 26 30 8Z" fill="url(#gFlame)"/>
+            <path class="flame-inner" d="M30 30 C36 40 39 45 39 50 C39 57 35 62 30 62 C25 62 21 57 21 50 C21 45 24 40 30 30Z" fill="#FFF6DA" opacity=".9"/>
+          </svg>
+
+          <p class="eyebrow reveal">Handcrafted &#183; Small Batch &#183; Made With Love</p>
+          <h1 class="hero-title reveal" data-delay="1">HER-mazing Touch</h1>
+          <span class="flourish lg reveal" data-delay="2" aria-hidden="true">&#10087;</span>
+          <p class="hero-sub reveal" data-delay="3">
+            Hand-poured candles, curated gift baskets, and custom engraving —
+            made for the people who deserve something unforgettable.
+          </p>
+          <div class="hero-cta reveal" data-delay="4">
+            <a href="tel:5715757174" class="btn btn-gold">Call to Order</a>
+            <a href="sms:5715757174" class="btn btn-ghost">Send a Text</a>
+          </div>
+        </div>
+      </div>
+
+      <button class="scroll-cue" data-tab-link="candles" aria-label="Explore collections">
+        <span class="cue-line"></span>
+        <span class="cue-text">Explore</span>
+      </button>
+    </div>
+
+    <!-- marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Make Me Fall</span><i>&#10022;</i><span>Vanilla Bean Bliss</span><i>&#10022;</i>
+        <span>Gift Baskets</span><i>&#10022;</i><span>Money Bouquets</span><i>&#10022;</i>
+        <span>Custom Engraving</span><i>&#10022;</i><span>Black Cherry Merlot</span><i>&#10022;</i>
+        <span>Flower Bouquets</span><i>&#10022;</i><span>Family Emblems</span><i>&#10022;</i>
+        <span>Make Me Fall</span><i>&#10022;</i><span>Vanilla Bean Bliss</span><i>&#10022;</i>
+        <span>Gift Baskets</span><i>&#10022;</i><span>Money Bouquets</span><i>&#10022;</i>
+        <span>Custom Engraving</span><i>&#10022;</i><span>Black Cherry Merlot</span><i>&#10022;</i>
+        <span>Flower Bouquets</span><i>&#10022;</i><span>Family Emblems</span><i>&#10022;</i>
+      </div>
+    </div>
+
+    <!-- collections -->
+    <section class="band band-ivory">
+      <div class="wrap">
+        <header class="band-head reveal">
+          <p class="eyebrow dark">What We Make</p>
+          <h2 class="band-title">Our Collections</h2>
+          <span class="flourish" aria-hidden="true">&#10087;</span>
+        </header>
+
+        <div class="collection-grid">
+          <button class="collection reveal tilt" data-delay="1" data-tab-link="candles" data-art="candle" style="--tint:#E8A33D;--wax:#F0E2C8">
+            <div class="collection-art"></div>
+            <h3>Candles</h3>
+            <p>Signature scents &amp; seasonal pours</p>
+            <span class="collection-go">Explore &#8594;</span>
+          </button>
+
+          <button class="collection reveal tilt" data-delay="2" data-tab-link="gifts" data-art="basket" style="--tint:#D69B7E">
+            <div class="collection-art"></div>
+            <h3>Gift Sets</h3>
+            <p>Baskets, bouquets &amp; money blooms</p>
+            <span class="collection-go">Explore &#8594;</span>
+          </button>
+
+          <button class="collection reveal tilt" data-delay="3" data-tab-link="engraving" data-art="emblem" style="--tint:#C9A227">
+            <div class="collection-art"></div>
+            <h3>Custom Engraving</h3>
+            <p>Keepsakes marked with their name</p>
+            <span class="collection-go">Explore &#8594;</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- promise strip -->
+    <section class="band band-espresso">
+      <div class="wrap">
+        <header class="band-head reveal">
+          <p class="eyebrow">The HER-mazing Promise</p>
+          <h2 class="band-title light">Why People Keep Coming Back</h2>
+          <span class="flourish" aria-hidden="true">&#10087;</span>
+        </header>
+        <div class="promise-grid">
+          <div class="promise reveal" data-delay="1">
+            <span class="promise-num">01</span>
+            <h3>Hand-Poured</h3>
+            <p>Every candle is poured in small batches — never mass produced, never rushed.</p>
+          </div>
+          <div class="promise reveal" data-delay="2">
+            <span class="promise-num">02</span>
+            <h3>Made For Them</h3>
+            <p>Names, dates, colors, scents — tell us the person and we build the gift around them.</p>
+          </div>
+          <div class="promise reveal" data-delay="3">
+            <span class="promise-num">03</span>
+            <h3>Presentation First</h3>
+            <p>Gold-trimmed boxes, satin ribbon, fresh blooms. It looks special before it's opened.</p>
+          </div>
+          <div class="promise reveal" data-delay="4">
+            <span class="promise-num">04</span>
+            <h3>Local &amp; Personal</h3>
+            <p>Pickup and local delivery, arranged with a real conversation — not a checkout page.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- process -->
+    <section class="band band-ivory">
+      <div class="wrap">
+        <header class="band-head reveal">
+          <p class="eyebrow dark">How It Works</p>
+          <h2 class="band-title">Three Steps to Something Special</h2>
+          <span class="flourish" aria-hidden="true">&#10087;</span>
+        </header>
+        <div class="steps">
+          <div class="step reveal" data-delay="1"><span class="step-num">1</span><h3>Reach Out</h3><p>Call or text us with the occasion, the person, and your budget.</p></div>
+          <div class="step-line reveal" data-delay="2" aria-hidden="true"></div>
+          <div class="step reveal" data-delay="3"><span class="step-num">2</span><h3>We Design It</h3><p>We'll put together options — scents, colors, engraving, arrangement.</p></div>
+          <div class="step-line reveal" data-delay="4" aria-hidden="true"></div>
+          <div class="step reveal" data-delay="5"><span class="step-num">3</span><h3>Pickup or Delivery</h3><p>Collect it or let us bring it right to the door, ready to gift.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-strip">
+      <div class="wrap cta-inner reveal">
+        <h2>Let's make something HER-mazing.</h2>
+        <p>No online checkout — just a real conversation about the perfect gift.</p>
+        <div class="hero-cta">
+          <a href="tel:5715757174" class="btn btn-gold">Call 571-575-7174</a>
+          <a href="sms:5715757174" class="btn btn-ghost">Text Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CANDLES ================= -->
+  <section class="panel" data-panel="candles">
+    <div class="page-hero">
+      <div class="hero-bg" aria-hidden="true"><span class="bokeh b1"></span><span class="bokeh b3"></span><span class="bokeh b5"></span></div>
+      <div class="wrap">
+        <p class="eyebrow reveal">Hand-Poured Collection</p>
+        <h1 class="page-title reveal" data-delay="1">Candles</h1>
+        <span class="flourish lg reveal" data-delay="2" aria-hidden="true">&#10087;</span>
+        <p class="page-sub reveal" data-delay="3">Clean-burning soy blends in gold-rimmed glass, poured to fill a room with warmth.</p>
+      </div>
+    </div>
+
+    <section class="band band-ivory">
+      <div class="wrap">
+        <header class="band-head reveal">
+          <p class="eyebrow dark">Year-Round Favourites</p>
+          <h2 class="band-title">Signature Scents</h2>
+          <span class="flourish" aria-hidden="true">&#10087;</span>
+        </header>
+
+        <div class="product-grid" id="candleGrid">
+          <!-- candle cards injected pattern: each uses the jar SVG with its own wax tone -->
+          <article class="pcard reveal tilt" data-delay="1" style="--wax:#F0E2C8;--tint:#E8C79A">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Vanilla Bean Bliss</h3>
+              <p>Warm vanilla, creamy sugar and a whisper of tonka.</p>
+              <div class="notes"><span>Vanilla</span><span>Sugar</span><span>Tonka</span></div>
+            </div>
+          </article>
+
+          <article class="pcard reveal tilt" data-delay="2" style="--wax:#DCCDE8;--tint:#B9A3CE">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Lavender Fields</h3>
+              <p>Soft lavender and chamomile for a calm, restful glow.</p>
+              <div class="notes"><span>Lavender</span><span>Chamomile</span><span>Cedar</span></div>
+            </div>
+          </article>
+
+          <article class="pcard reveal tilt" data-delay="3" style="--wax:#E3EBF0;--tint:#AFC4D2">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Fresh Linen</h3>
+              <p>Clean cotton and light musk — sunshine on laundry day.</p>
+              <div class="notes"><span>Cotton</span><span>Musk</span><span>Citrus</span></div>
+            </div>
+          </article>
+
+          <article class="pcard reveal tilt" data-delay="1" style="--wax:#DDEDE6;--tint:#A8CFC2">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Coconut &amp; Sea Salt</h3>
+              <p>Coconut milk, sea salt and a breeze off the water.</p>
+              <div class="notes"><span>Coconut</span><span>Sea Salt</span><span>Driftwood</span></div>
+            </div>
+          </article>
+
+          <article class="pcard reveal tilt" data-delay="2" style="--wax:#EAC49B;--tint:#D09B60">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Cinnamon Sugar</h3>
+              <p>Toasted cinnamon and brown sugar, fresh from the oven.</p>
+              <div class="notes"><span>Cinnamon</span><span>Brown Sugar</span><span>Butter</span></div>
+            </div>
+          </article>
+
+          <article class="pcard reveal tilt" data-delay="3" style="--wax:#C99AA6;--tint:#A8677B">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Black Cherry Merlot</h3>
+              <p>Dark cherries, plum and a splash of red wine.</p>
+              <div class="notes"><span>Cherry</span><span>Plum</span><span>Merlot</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-espresso">
+      <div class="wrap">
+        <header class="band-head reveal">
+          <p class="eyebrow">Limited Pours</p>
+          <h2 class="band-title light">The Seasonal Collection</h2>
+          <span class="flourish" aria-hidden="true">&#10087;</span>
+        </header>
+
+        <div class="season-grid" id="seasonGrid">
+          <article class="scard reveal feature" data-delay="1" style="--wax:#E0A96D;--tint:#C4762A">
+            <span class="season-tag">Fall</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Make Me Fall</h3>
+              <p>Spiced apple, cinnamon stick and warm maple — the one that makes you fall in love with fall.</p>
+              <div class="notes"><span>Spiced Apple</span><span>Cinnamon</span><span>Maple</span></div>
+            </div>
+          </article>
+
+          <article class="scard reveal" data-delay="2" style="--wax:#CFE3F0;--tint:#84AECB">
+            <span class="season-tag">Winter</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Winter Wonderland</h3>
+              <p>Peppermint, fresh pine and vanilla snow.</p>
+              <div class="notes"><span>Peppermint</span><span>Pine</span><span>Vanilla</span></div>
+            </div>
+          </article>
+
+          <article class="scard reveal" data-delay="3" style="--wax:#FAE3A6;--tint:#E0B94E">
+            <span class="season-tag">Summer</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Summer Breeze</h3>
+              <p>Coconut lime, ocean mist and sun-warmed citrus.</p>
+              <div class="notes"><span>Coconut Lime</span><span>Ocean</span><span>Citrus</span></div>
+            </div>
+          </article>
+
+          <article class="scard reveal" data-delay="4" style="--wax:#F3CFDF;--tint:#D993B4">
+            <span class="season-tag">Spring</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Spring Bloom</h3>
+              <p>Cherry blossom, peony and fresh-cut stems.</p>
+              <div class="notes"><span>Blossom</span><span>Peony</span><span>Green Stem</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-strip">
+      <div class="wrap cta-inner reveal">
+        <h2>Found your scent?</h2>
+        <p>Tell us which one and how many — we'll pour it fresh.</p>
+        <div class="hero-cta">
+          <a href="sms:5715757174?body=Hi!%20I%27d%20like%20to%20order%20a%20candle." class="btn btn-gold">Text to Order</a>
+          <a href="tel:5715757174" class="btn btn-ghost">Call Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GIFT SETS ================= -->
+  <section class="panel" data-panel="gifts">
+    <div class="page-hero">
+      <div class="hero-bg" aria-hidden="true"><span class="bokeh b2"></span><span class="bokeh b4"></span><span class="bokeh b5"></span></div>
+      <div class="wrap">
+        <p class="eyebrow reveal">Curated &amp; Custom</p>
+        <h1 class="page-title reveal" data-delay="1">Gift Sets</h1>
+        <span class="flourish lg reveal" data-delay="2" aria-hidden="true">&#10087;</span>
+        <p class="page-sub reveal" data-delay="3">Baskets, bouquets and money blooms — arranged for the moments that matter.</p>
+      </div>
+    </div>
+
+    <section class="band band-ivory">
+      <div class="wrap">
+        <div class="chips reveal" role="group" aria-label="Filter by occasion">
+          <button class="chip is-active" data-filter="all">All Occasions</button>
+          <button class="chip" data-filter="mothers-day">Mother's Day</button>
+          <button class="chip" data-filter="fathers-day">Father's Day</button>
+          <button class="chip" data-filter="birthday">Birthday</button>
+          <button class="chip" data-filter="graduation">Graduation</button>
+          <button class="chip" data-filter="just-because">Just Because I Love You</button>
+        </div>
+
+        <div class="product-grid" id="giftGrid">
+          <article class="pcard gcard reveal tilt" data-occasions="mothers-day just-because" data-art="basket" style="--tint:#D69B7E">
+            <span class="type-tag">Gift Basket</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Rose &amp; Chocolate Basket</h3>
+              <p>Blush roses, white daisies and chocolate-dipped strawberries around a keepsake mug.</p>
+              <div class="notes"><span>Roses</span><span>Strawberries</span><span>Mug</span></div>
+            </div>
+          </article>
+
+          <article class="pcard gcard reveal tilt" data-occasions="fathers-day just-because" data-art="box" style="--tint:#8A5A38">
+            <span class="type-tag">Gift Box</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Dad's Deluxe Box</h3>
+              <p>An engraved tumbler, his snacks, and a candle he'll actually burn.</p>
+              <div class="notes"><span>Engraved</span><span>Snacks</span><span>Candle</span></div>
+            </div>
+          </article>
+
+          <article class="pcard gcard reveal tilt" data-occasions="graduation" data-art="money" style="--tint:#6E8C5A">
+            <span class="type-tag">Money Bouquet</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Grad Cap Money Bouquet</h3>
+              <p>Crisp bills folded into blooms, topped with a mini graduation cap.</p>
+              <div class="notes"><span>Cash Blooms</span><span>Grad Cap</span><span>Ribbon</span></div>
+            </div>
+          </article>
+
+          <article class="pcard gcard reveal tilt" data-occasions="birthday just-because" data-art="box" style="--tint:#C08A6A">
+            <span class="type-tag">Gift Box</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Birthday Bliss Box</h3>
+              <p>A signature candle, sweet treats and a handwritten card, tied with satin.</p>
+              <div class="notes"><span>Candle</span><span>Treats</span><span>Handwritten</span></div>
+            </div>
+          </article>
+
+          <article class="pcard gcard reveal tilt" data-occasions="just-because" data-art="bouquet" style="--tint:#E0A8B4">
+            <span class="type-tag">Flower Bouquet</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Just Because Bouquet</h3>
+              <p>No occasion required — fresh blooms wrapped to say it out loud.</p>
+              <div class="notes"><span>Roses</span><span>Daisies</span><span>Eucalyptus</span></div>
+            </div>
+          </article>
+
+          <article class="pcard gcard reveal tilt" data-occasions="mothers-day" data-art="money" style="--tint:#C9A227">
+            <span class="type-tag">Money Bouquet</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Mom's Money Bouquet</h3>
+              <p>Cash and blooms together — built to spoil the woman who does it all.</p>
+              <div class="notes"><span>Cash Blooms</span><span>Roses</span><span>Gold Ribbon</span></div>
+            </div>
+          </article>
+
+          <article class="pcard gcard reveal tilt" data-occasions="fathers-day" data-art="basket" style="--tint:#7A5A3A">
+            <span class="type-tag">Gift Basket</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Father's Day Favourites</h3>
+              <p>His mug, an engraved tumbler and a few treats, basketed and bowed.</p>
+              <div class="notes"><span>Mug</span><span>Tumbler</span><span>Treats</span></div>
+            </div>
+          </article>
+
+          <article class="pcard gcard reveal tilt" data-occasions="graduation just-because" data-art="box" style="--tint:#9A7BA8">
+            <span class="type-tag">Gift Box</span>
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Next Chapter Box</h3>
+              <p>A congratulations box with a keepsake candle and personalised note.</p>
+              <div class="notes"><span>Keepsake</span><span>Candle</span><span>Note</span></div>
+            </div>
+          </article>
+        </div>
+
+        <p class="empty-state" id="giftEmpty" hidden>
+          Nothing listed for that occasion yet — text us and we'll build something from scratch.
+        </p>
+      </div>
+    </section>
+
+    <div class="cta-strip">
+      <div class="wrap cta-inner reveal">
+        <h2>Planning a gift?</h2>
+        <p>Tell us the occasion and the person — we'll take it from there.</p>
+        <div class="hero-cta">
+          <a href="sms:5715757174?body=Hi!%20I%27d%20like%20to%20order%20a%20gift%20set." class="btn btn-gold">Text to Order</a>
+          <a href="tel:5715757174" class="btn btn-ghost">Call Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ENGRAVING ================= -->
+  <section class="panel" data-panel="engraving">
+    <div class="page-hero">
+      <div class="hero-bg" aria-hidden="true"><span class="bokeh b1"></span><span class="bokeh b4"></span></div>
+      <div class="wrap">
+        <p class="eyebrow reveal">Personalised Keepsakes</p>
+        <h1 class="page-title reveal" data-delay="1">Custom Engraving</h1>
+        <span class="flourish lg reveal" data-delay="2" aria-hidden="true">&#10087;</span>
+        <p class="page-sub reveal" data-delay="3">Names, dates, initials and sayings — cut clean and made to last.</p>
+      </div>
+    </div>
+
+    <section class="band band-ivory">
+      <div class="wrap">
+        <div class="product-grid" id="engraveGrid">
+          <article class="pcard ecard reveal tilt" data-art="tag" style="--tint:#B9A88E">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Dog Tags</h3>
+              <p>Pet tags, keychains and matching sets engraved with names and numbers.</p>
+              <a class="pcard-cta" href="sms:5715757174?body=Hi!%20I%27d%20like%20engraved%20dog%20tags.">Inquire &#8594;</a>
+            </div>
+          </article>
+
+          <article class="pcard ecard reveal tilt" data-art="tumbler" style="--tint:#A8B4BC">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Tumblers</h3>
+              <p>Insulated tumblers marked with a name, monogram or a line they love.</p>
+              <a class="pcard-cta" href="sms:5715757174?body=Hi!%20I%27d%20like%20an%20engraved%20tumbler.">Inquire &#8594;</a>
+            </div>
+          </article>
+
+          <article class="pcard ecard reveal tilt" data-art="mug" style="--tint:#D8C6B0">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Mugs</h3>
+              <p>The morning cup, engraved just for them — sold solo or inside a basket.</p>
+              <a class="pcard-cta" href="sms:5715757174?body=Hi!%20I%27d%20like%20an%20engraved%20mug.">Inquire &#8594;</a>
+            </div>
+          </article>
+
+          <article class="pcard ecard reveal tilt" data-art="emblem" style="--tint:#9C6A44">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Family Name Emblems</h3>
+              <p>Wall-ready plaques with the family name and the year it all started.</p>
+              <a class="pcard-cta" href="sms:5715757174?body=Hi!%20I%27d%20like%20a%20family%20name%20emblem.">Inquire &#8594;</a>
+            </div>
+          </article>
+
+          <article class="pcard ecard reveal tilt" data-art="mat" style="--tint:#B5854A">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Doormats</h3>
+              <p>Coir mats cut with your family name or a welcome worth reading.</p>
+              <a class="pcard-cta" href="sms:5715757174?body=Hi!%20I%27d%20like%20a%20custom%20doormat.">Inquire &#8594;</a>
+            </div>
+          </article>
+
+          <article class="pcard ecard reveal tilt" data-art="wood" style="--tint:#8A5A38">
+            <div class="pcard-art"></div>
+            <div class="pcard-body">
+              <h3>Decorative Wood Carvings</h3>
+              <p>One-of-a-kind carved pieces for the wall, the shelf or the mantel.</p>
+              <a class="pcard-cta" href="sms:5715757174?body=Hi!%20I%27d%20like%20a%20wood%20carving.">Inquire &#8594;</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-strip">
+      <div class="wrap cta-inner reveal">
+        <h2>Have something specific in mind?</h2>
+        <p>Every piece is made to order. Send us the words and we'll send you options.</p>
+        <div class="hero-cta">
+          <a href="sms:5715757174" class="btn btn-gold">Text Your Idea</a>
+          <a href="tel:5715757174" class="btn btn-ghost">Call Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="panel" data-panel="contact">
+    <div class="page-hero">
+      <div class="hero-bg" aria-hidden="true"><span class="bokeh b1"></span><span class="bokeh b2"></span><span class="bokeh b5"></span></div>
+      <div class="wrap">
+        <p class="eyebrow reveal">Let's Talk</p>
+        <h1 class="page-title reveal" data-delay="1">Get In Touch</h1>
+        <span class="flourish lg reveal" data-delay="2" aria-hidden="true">&#10087;</span>
+        <p class="page-sub reveal" data-delay="3">No carts, no checkout queues. Just tell us what you need.</p>
+      </div>
+    </div>
+
+    <section class="band band-ivory">
+      <div class="wrap">
+        <div class="contact-panel reveal">
+          <div class="gold-frame inner">
+            <p class="contact-label">Call or Text</p>
+            <a class="contact-number" href="tel:5715757174">571-575-7174</a>
+            <span class="flourish" aria-hidden="true">&#10087;</span>
+            <div class="hero-cta">
+              <a href="tel:5715757174" class="btn btn-gold">Call Now</a>
+              <a href="sms:5715757174" class="btn btn-ghost">Send a Text</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info reveal" data-delay="1">
+            <h3>Hours</h3>
+            <p>Monday &ndash; Saturday<br>9:00am &ndash; 7:00pm</p>
+            <p class="muted">Sundays by appointment</p>
+          </div>
+          <div class="info reveal" data-delay="2">
+            <h3>Pickup &amp; Delivery</h3>
+            <p>Local pickup and delivery available.</p>
+            <p class="muted">Ask about shipping for engraved pieces.</p>
+          </div>
+          <div class="info reveal" data-delay="3">
+            <h3>Custom Orders</h3>
+            <p>Reach out early for large or seasonal orders.</p>
+            <p class="muted">Rush requests welcome when possible.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <svg class="brand-flame lg" viewBox="0 0 40 56" aria-hidden="true">
+        <ellipse cx="20" cy="26" rx="17" ry="21" fill="url(#gHalo)" opacity=".7"/>
+        <path class="flame-outer" d="M20 5 C28 18 33 25 33 32 C33 41 27 47 20 47 C13 47 7 41 7 32 C7 25 12 18 20 5Z" fill="url(#gFlame)"/>
+        <path class="flame-inner" d="M20 21 C24 28 26 31 26 34 C26 39 23 42 20 42 C17 42 14 39 14 34 C14 31 16 28 20 21Z" fill="#FFF6DA" opacity=".92"/>
+      </svg>
+      <p class="footer-name">HER-mazing Touch</p>
+      <span class="flourish" aria-hidden="true">&#10087;</span>
+      <p class="footer-tag">Candles &#183; Gift Sets &#183; Custom Engraving</p>
+    </div>
+
+    <nav class="footer-nav">
+      <button data-tab-link="home">Home</button>
+      <button data-tab-link="candles">Candles</button>
+      <button data-tab-link="gifts">Gift Sets</button>
+      <button data-tab-link="engraving">Engraving</button>
+      <button data-tab-link="contact">Contact</button>
+    </nav>
+
+    <a class="footer-phone" href="tel:5715757174">571-575-7174</a>
+    <p class="footer-copy">&copy; <span id="year"></span> HER-mazing Touch &#183; All rights reserved</p>
+  </div>
+</footer>
+
+<a href="sms:5715757174" class="fab" aria-label="Text us">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" fill="currentColor"/></svg>
+</a>
+
+<script src="js/script.js"></script>
+</body>
+</html>
