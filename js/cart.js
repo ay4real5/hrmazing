@@ -69,6 +69,15 @@
     els.cardMsg  = document.getElementById('cardMessage');
     els.noAddr   = document.getElementById('noAddress');
     els.noAddrHint = document.getElementById('noAddressHint');
+    els.shipFrom = document.getElementById('cartShipFrom');
+    els.ship     = document.querySelector('.cart-ship');
+    els.vat      = document.querySelector('.cart-vat');
+    els.cardCount = document.getElementById('cardCount');
+    els.clear    = document.getElementById('cartClear');
+
+    els.cardMsg?.addEventListener('input', () => {
+      els.cardCount.textContent = `${els.cardMsg.value.length} / 200`;
+    });
 
     // greeting-card occasions come from the catalogue
     if (els.cardStyle && !els.cardStyle.options.length) {
@@ -99,12 +108,24 @@
     els.badge.hidden = n === 0;
 
     if (!lines.length) {
-      els.body.innerHTML = '<p class="cart-empty">Your basket is empty.</p>';
+      els.body.innerHTML =
+        '<div class="cart-empty">' +
+          '<p>Your basket is empty.</p>' +
+          '<button class="btn btn-ghost" data-empty-shop>Browse Gift Sets</button>' +
+        '</div>';
+      els.body.querySelector('[data-empty-shop]').addEventListener('click', () => {
+        close();
+        document.querySelector('.tab-btn[data-tab="gifts"]')?.click();
+      });
       els.subtotal.textContent = C.money(0);
+      if (els.clear) els.clear.hidden = true;
       els.checkout.disabled = true;
       els.notice.hidden = true;
       els.shipList.innerHTML = '';
       if (els.extras) els.extras.hidden = true;
+      // nothing to deliver yet, so hide the delivery/tax lines entirely
+      if (els.ship) els.ship.hidden = true;
+      if (els.vat) els.vat.hidden = true;
       return;
     }
 
@@ -119,13 +140,13 @@
           ${l.note ? '<p class="cl-note"></p>' : ''}
           ${p.shipping === 'local' ? '<p class="cl-local">Local delivery / pickup only</p>' : ''}
         </div>
+        <button class="cl-remove" data-act="rm" aria-label="Remove">&times;</button>
         <div class="cl-qty">
           <button class="cl-step" data-act="dec" aria-label="Decrease quantity">&minus;</button>
           <span class="cl-num"></span>
           <button class="cl-step" data-act="inc" aria-label="Increase quantity">+</button>
         </div>
-        <p class="cl-price"></p>
-        <button class="cl-remove" data-act="rm" aria-label="Remove">&times;</button>`;
+        <p class="cl-price"></p>`;
 
       // textContent (not innerHTML) so a personalisation note can never inject markup
       row.querySelector('.cl-name').textContent = p.name;
@@ -145,16 +166,28 @@
     els.subtotal.textContent = C.money(subtotal());
     els.checkout.disabled = false;
     if (els.extras) els.extras.hidden = false;
+    if (els.ship) els.ship.hidden = false;
+    if (els.vat) els.vat.hidden = false;
+    if (els.clear) els.clear.hidden = false;
 
     const localOnly = C.hasLocalOnly(lines);
     els.notice.hidden = !localOnly;
 
+    const options = C.shippingFor(lines);
     els.shipList.innerHTML = '';
-    C.shippingFor(lines).forEach(s => {
+    options.forEach(s => {
       const li = document.createElement('li');
-      li.textContent = `${s.label} — ${s.amount ? C.money(s.amount) : 'Free'}`;
+      li.innerHTML = '<span></span><em></em>';
+      li.querySelector('span').textContent = s.label;
+      li.querySelector('em').textContent = s.amount ? C.money(s.amount) : 'Free';
       els.shipList.appendChild(li);
     });
+
+    // summarise on the closed row so the list doesn't need opening
+    const cheapest = Math.min(...options.map(s => s.amount));
+    if (els.shipFrom) {
+      els.shipFrom.textContent = cheapest === 0 ? 'from free' : `from ${C.money(cheapest)}`;
+    }
   }
 
   /* ---------------- checkout ---------------- */

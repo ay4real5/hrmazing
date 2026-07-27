@@ -1191,48 +1191,60 @@
     <button id="cartClose" class="cart-close" aria-label="Close basket">&times;</button>
   </header>
 
-  <div class="cart-body" id="cartBody"></div>
+  <!-- everything above the totals scrolls together, so a long basket never
+       squeezes the gift options (or vice versa) -->
+  <div class="cart-scroll">
+    <div class="cart-body" id="cartBody"></div>
 
-  <div class="cart-extras" id="cartExtras" hidden>
-    <label class="cx-field">
-      <span>Greeting card (included free)</span>
-      <select id="cardStyle"></select>
-    </label>
-    <label class="cx-field">
-      <span>Card message</span>
-      <textarea id="cardMessage" rows="2" maxlength="200"
-        placeholder="We'll write this by hand on the card"></textarea>
-    </label>
-    <label class="cx-check">
-      <input type="checkbox" id="noAddress">
-      <span>I don't have their address — contact the recipient for it</span>
-    </label>
-    <p class="cx-hint" id="noAddressHint" hidden>
-      We'll reach out to them for the delivery address before anything is sent,
-      and the gift stays a surprise.
-    </p>
+    <div class="cart-extras" id="cartExtras" hidden>
+      <p class="cx-title">Gift options</p>
+
+      <label class="cx-field">
+        <span>Greeting card <em>&mdash; included free</em></span>
+        <select id="cardStyle"></select>
+      </label>
+
+      <label class="cx-field">
+        <span>Card message</span>
+        <textarea id="cardMessage" rows="3" maxlength="200"
+          placeholder="We'll write this by hand on the card"></textarea>
+        <em class="cx-count" id="cardCount">0 / 200</em>
+      </label>
+
+      <label class="cx-check">
+        <input type="checkbox" id="noAddress">
+        <span>I don't have their address &mdash; contact the recipient for it</span>
+      </label>
+      <p class="cx-hint" id="noAddressHint" hidden>
+        We'll reach out to them for the delivery address before anything is sent,
+        and the gift stays a surprise.
+      </p>
+    </div>
   </div>
 
   <div class="cart-foot">
     <p class="cart-notice" id="cartNotice" hidden>
-      Your basket contains fresh or cash items, so this order is
-      <strong>local delivery or pickup only</strong> — these can't be posted.
+      Contains fresh or cash items &mdash; <strong>local delivery or pickup only</strong>.
     </p>
 
-    <div class="cart-ship">
-      <span>Delivery options</span>
+    <details class="cart-ship">
+      <summary><span>Delivery options</span><em id="cartShipFrom"></em></summary>
       <ul id="cartShipping"></ul>
-    </div>
+    </details>
 
     <div class="cart-total">
       <span>Subtotal</span>
       <strong id="cartSubtotal">$0.00</strong>
     </div>
-    <p class="cart-vat">Shipping chosen at checkout. Taxes and any import duties calculated there.</p>
+    <p class="cart-vat">Delivery chosen at checkout &#183; taxes &amp; duties calculated there</p>
 
     <button class="btn btn-gold cart-checkout" id="cartCheckout" disabled>Checkout</button>
-    <button class="cart-clear" id="cartClear" type="button">Empty basket</button>
-    <p class="cart-alt">Prefer to talk it through? <a href="sms:5715757174">Text 571-575-7174</a></p>
+
+    <div class="cart-foot-links">
+      <button class="cart-clear" id="cartClear" type="button">Empty basket</button>
+      <span aria-hidden="true">&#183;</span>
+      <a href="sms:5715757174">Text us instead</a>
+    </div>
   </div>
 </aside>
 
