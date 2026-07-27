@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%23241812%22/><path d=%22M16 6c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z%22 fill=%22%23E8A33D%22/></svg>">
+<link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
 
@@ -50,11 +50,7 @@
 <!-- ============ preloader ============ -->
 <div class="preloader" id="preloader">
   <div class="preloader-inner">
-    <svg class="pre-flame" viewBox="0 0 60 80" aria-hidden="true">
-      <ellipse cx="30" cy="44" rx="26" ry="30" fill="url(#gHalo)"/>
-      <path class="flame-outer" d="M30 8 C42 26 49 37 49 47 C49 60 40 69 30 69 C20 69 11 60 11 47 C11 37 18 26 30 8Z" fill="url(#gFlame)"/>
-      <path class="flame-inner" d="M30 30 C36 40 39 45 39 50 C39 57 35 62 30 62 C25 62 21 57 21 50 C21 45 24 40 30 30Z" fill="#FFF6DA" opacity=".9"/>
-    </svg>
+    <img class="pre-mark" src="images/logo-mark.webp" alt="" width="240" height="204">
     <p class="pre-name">HER-mazing Touch</p>
   </div>
 </div>
@@ -66,11 +62,7 @@
   <div class="header-inner">
 
     <button class="brand" data-tab-link="home" aria-label="HER-mazing Touch — home">
-      <svg class="brand-flame" viewBox="0 0 40 56" aria-hidden="true">
-        <ellipse cx="20" cy="26" rx="17" ry="21" fill="url(#gHalo)" opacity=".7"/>
-        <path class="flame-outer" d="M20 5 C28 18 33 25 33 32 C33 41 27 47 20 47 C13 47 7 41 7 32 C7 25 12 18 20 5Z" fill="url(#gFlame)"/>
-        <path class="flame-inner" d="M20 21 C24 28 26 31 26 34 C26 39 23 42 20 42 C17 42 14 39 14 34 C14 31 16 28 20 21Z" fill="#FFF6DA" opacity=".92"/>
-      </svg>
+      <img class="brand-mark" src="images/logo-mark.webp" alt="" width="240" height="204">
       <span class="brand-text">HER-mazing Touch</span>
     </button>
 
@@ -122,14 +114,10 @@
 
       <div class="hero-inner">
         <div class="gold-frame">
-          <svg class="hero-flame" viewBox="0 0 60 80" aria-hidden="true">
-            <ellipse cx="30" cy="44" rx="28" ry="32" fill="url(#gHalo)"/>
-            <path class="flame-outer" d="M30 8 C42 26 49 37 49 47 C49 60 40 69 30 69 C20 69 11 60 11 47 C11 37 18 26 30 8Z" fill="url(#gFlame)"/>
-            <path class="flame-inner" d="M30 30 C36 40 39 45 39 50 C39 57 35 62 30 62 C25 62 21 57 21 50 C21 45 24 40 30 30Z" fill="#FFF6DA" opacity=".9"/>
-          </svg>
-
           <p class="eyebrow reveal">Handcrafted &#183; Small Batch &#183; Made With Love</p>
-          <h1 class="hero-title reveal" data-delay="1">HER-mazing Touch</h1>
+          <h1 class="hero-logo reveal" data-delay="1">
+            <img src="images/logo.webp" alt="HER-mazing Touch" width="500" height="546">
+          </h1>
           <span class="flourish lg reveal" data-delay="2" aria-hidden="true">&#10087;</span>
           <p class="hero-sub reveal" data-delay="3">
             Hand-poured candles, curated gift baskets, and custom engraving —
@@ -225,6 +213,24 @@
             <h3>Local &amp; Personal</h3>
             <p>Pickup and local delivery, arranged with a real conversation — not a checkout page.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- signature packaging -->
+    <section class="band band-ivory packaging">
+      <div class="wrap packaging-grid">
+        <figure class="packaging-photo reveal">
+          <img src="images/gift-bag.webp" alt="HER-mazing Touch signature gift bag — deep brown with gold trim, satin bow and the brand basket crest" width="800" height="1000" loading="lazy">
+        </figure>
+        <div class="packaging-copy reveal" data-delay="2">
+          <p class="eyebrow dark">Signature Packaging</p>
+          <h2 class="band-title">It Looks Special<br>Before It's Opened</h2>
+          <span class="flourish" aria-hidden="true">&#10087;</span>
+          <p>Every order leaves in our signature deep-brown packaging — gold-foil trim,
+             a hand-tied satin bow and the HER-mazing crest on the front.</p>
+          <p>No plain boxes, no afterthoughts. The presentation is part of the gift.</p>
+          <a href="sms:5715757174" class="btn btn-dark">Order Yours</a>
         </div>
       </div>
     </section>
@@ -661,11 +667,7 @@
 <footer class="site-footer">
   <div class="wrap footer-inner">
     <div class="footer-brand">
-      <svg class="brand-flame lg" viewBox="0 0 40 56" aria-hidden="true">
-        <ellipse cx="20" cy="26" rx="17" ry="21" fill="url(#gHalo)" opacity=".7"/>
-        <path class="flame-outer" d="M20 5 C28 18 33 25 33 32 C33 41 27 47 20 47 C13 47 7 41 7 32 C7 25 12 18 20 5Z" fill="url(#gFlame)"/>
-        <path class="flame-inner" d="M20 21 C24 28 26 31 26 34 C26 39 23 42 20 42 C17 42 14 39 14 34 C14 31 16 28 20 21Z" fill="#FFF6DA" opacity=".92"/>
-      </svg>
+      <img class="footer-mark" src="images/logo-mark.webp" alt="" width="240" height="204">
       <p class="footer-name">HER-mazing Touch</p>
       <span class="flourish" aria-hidden="true">&#10087;</span>
       <p class="footer-tag">Candles &#183; Gift Sets &#183; Custom Engraving</p>

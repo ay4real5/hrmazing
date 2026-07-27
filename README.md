@@ -7,6 +7,21 @@ A simple, mobile-friendly advertisement website for HER-mazing Touch — a small
 - `index.html` — the entire site (single page with tab-based navigation: Home, Candles, Gift Sets, Custom Engraving, Contact)
 - `css/style.css` — all styling, colors, and responsive layout
 - `js/script.js` — tab switching, mobile menu, gift-set occasion filters, scroll animations
+- `images/` — brand assets
+
+## Brand assets
+
+| File | Used for |
+|---|---|
+| `logo.webp` | full lockup (basket + wordmark) — hero |
+| `logo-mark.webp` | basket only — header, preloader, footer |
+| `favicon.png` | browser tab icon |
+| `gift-bag.webp` | packaging photo on the Home tab |
+| `logo.png` | **archival full-quality logo with transparency** — not used by the site; keep this one for print, Instagram, packaging etc. |
+
+The original artwork came on a solid black field. The black was removed with an
+edge-connected flood fill (rather than a brightness threshold, which would have eaten
+the chocolate-dipped strawberries), so the logo now drops cleanly onto any background.
 
 No build step, no dependencies, no backend required.
 

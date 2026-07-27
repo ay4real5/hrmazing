@@ -138,7 +138,8 @@ img,svg{display:block;max-width:100%}
 }
 .preloader.done{opacity:0;visibility:hidden}
 .preloader-inner{text-align:center;animation:preIn 1s var(--ease)}
-.pre-flame{width:62px;margin:0 auto 18px}
+.pre-mark{width:150px;height:auto;margin:0 auto 14px;animation:markIn 1.2s var(--ease)}
+@keyframes markIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
 .pre-name{
   font-family:var(--script);font-size:clamp(2rem,6vw,2.9rem);
   background:linear-gradient(100deg,var(--gold-200),var(--gold-400),var(--gold-100));
@@ -180,10 +181,16 @@ img,svg{display:block;max-width:100%}
   display:flex;align-items:center;gap:clamp(14px,3vw,34px);
 }
 
-/* brand */
-.brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.brand-flame{width:22px;height:31px;flex-shrink:0}
-.brand-flame.lg{width:34px;height:48px;margin-inline:auto}
+/* brand — logo art is a real cut-out PNG (black field removed), so it drops
+   onto any background without blend tricks */
+.brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.brand-mark{
+  width:auto;height:46px;flex-shrink:0;
+  filter:drop-shadow(0 3px 8px rgba(0,0,0,.5));
+  transition:height .35s var(--ease),transform .5s var(--ease);
+}
+.site-header.scrolled .brand-mark{height:38px}
+.brand:hover .brand-mark{transform:scale(1.06) rotate(-2deg)}
 .brand-text{
   font-family:var(--script);
   font-size:clamp(1.5rem,2.6vw,1.95rem);
@@ -333,7 +340,18 @@ img,svg{display:block;max-width:100%}
 }
 
 .hero-inner{position:relative;z-index:2;width:min(880px,92vw);text-align:center}
-.hero-flame{width:44px;margin:0 auto 22px}
+
+/* the real logo lockup carries the hero */
+.hero-logo{margin:0 0 4px;line-height:0}
+.hero-logo img{
+  width:min(340px,58vw);height:auto;margin-inline:auto;
+  filter:drop-shadow(0 18px 46px rgba(232,163,61,.28));
+  animation:logoGlow 6s ease-in-out infinite;
+}
+@keyframes logoGlow{
+  0%,100%{filter:drop-shadow(0 18px 46px rgba(232,163,61,.24))}
+  50%{filter:drop-shadow(0 18px 62px rgba(232,163,61,.44))}
+}
 
 .eyebrow{
   font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;
@@ -460,6 +478,44 @@ img,svg{display:block;max-width:100%}
   transition:letter-spacing .4s var(--ease),color .4s;
 }
 .collection:hover .collection-go{letter-spacing:.3em;color:var(--gold-400)}
+
+/* ============================================================
+   signature packaging (real product photography)
+   ============================================================ */
+.packaging-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(28px,5vw,72px);align-items:center;
+}
+.packaging-photo{margin:0;position:relative}
+.packaging-photo::after{
+  content:"";position:absolute;inset:14px;pointer-events:none;
+  border:1px solid rgba(246,238,224,.35);
+}
+.packaging-photo img{
+  width:100%;height:auto;object-fit:cover;
+  border-radius:2px;
+  box-shadow:var(--shadow-lg);
+}
+.packaging-copy .band-title{text-align:left;font-size:clamp(1.8rem,3.6vw,2.7rem);line-height:1.16}
+.packaging-copy .eyebrow{text-align:left}
+.packaging-copy .flourish{margin-left:0}
+.packaging-copy .flourish::after{background-position:left center,right center,calc(50% - 15px) center,calc(50% + 15px) center}
+.packaging-copy p{font-size:.94rem;line-height:1.85;color:var(--ink-soft);margin-bottom:14px;max-width:46ch}
+.btn-dark{
+  margin-top:12px;
+  background:linear-gradient(135deg,var(--espresso-600),var(--espresso-800));
+  color:var(--gold-200);border:1px solid rgba(201,162,39,.4);
+}
+.btn-dark:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(21,14,10,.28);border-color:var(--gold-400)}
+
+@media (max-width:860px){
+  .packaging-grid{grid-template-columns:1fr}
+  .packaging-photo{max-width:460px;margin-inline:auto}
+  .packaging-copy{text-align:center}
+  .packaging-copy .band-title,.packaging-copy .eyebrow{text-align:center}
+  .packaging-copy .flourish{margin-inline:auto}
+  .packaging-copy p{margin-inline:auto}
+}
 
 /* ============================================================
    promise
@@ -648,6 +704,7 @@ img,svg{display:block;max-width:100%}
   background:linear-gradient(180deg,var(--espresso-900),#0E0906);
   border-top:1px solid rgba(201,162,39,.22);
 }
+.footer-mark{width:104px;height:auto;margin:0 auto}
 .footer-name{font-family:var(--script);font-size:clamp(1.9rem,4vw,2.5rem);margin-top:10px;
   background:linear-gradient(100deg,var(--gold-100),var(--gold-300),var(--gold-100));
   -webkit-background-clip:text;background-clip:text;color:transparent}
@@ -706,7 +763,8 @@ img,svg{display:block;max-width:100%}
 
 @media (max-width:600px){
   .gold-frame{padding:30px 20px}
-  .flourish::before,.flourish::after{width:34px}
+  .flourish,.flourish.lg{width:min(230px,80vw)}
+  .flourish::after,.flourish.lg::after{background-size:62px 1px,62px 1px,3.5px 3.5px,3.5px 3.5px}
   .product-grid,.season-grid,.collection-grid{grid-template-columns:1fr}
   .collection-art{height:200px}
   .pcard-art{height:220px}
