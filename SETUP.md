@@ -124,6 +124,25 @@ flowers will not survive an international transit and customs.
 
 ---
 
+## ⚠️ After changing anything in `images/`
+
+Run this, or returning visitors will keep seeing the old picture:
+
+```bash
+python tools/stamp-assets.py
+```
+
+Images are served with `max-age=31536000, immutable` (see `netlify.toml`), which
+is good for speed but means a browser holds its copy for a year. Since filenames
+never change, swapping `logo.webp` would leave everyone who had already visited
+looking at the previous artwork — and you cannot ask customers to hard-refresh.
+
+The script appends a hash of each file's contents to its URL
+(`images/logo.webp?v=156e9ed4`). Change the file, the hash changes, the browser
+fetches it. It is safe to run any time.
+
+---
+
 ## Email address
 
 The site uses `hello@hermazingtouch.com` throughout — **this is a placeholder**.
