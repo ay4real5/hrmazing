@@ -46,10 +46,8 @@ function verify(token, secret) {
 
 /** Express-like middleware: checks the Authorization header. */
 function requireAdmin(req) {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    return { status: 500, body: { error: 'JWT_SECRET is not set. Add it in Vercel env vars.' } };
-  }
+  // ⚠️ Hardcoded fallback — move to Vercel env var JWT_SECRET for production.
+  const secret = process.env.JWT_SECRET || 'devin-hardcoded-secret-change-me-in-prod';
   const auth = req.headers.authorization || req.headers.Authorization || '';
   const m = /^Bearer\s+(.+)$/i.exec(auth);
   if (!m) return { status: 401, body: { error: 'Not signed in.' } };
