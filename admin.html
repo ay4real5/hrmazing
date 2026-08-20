@@ -264,7 +264,15 @@
       <input type="hidden" name="_index">
       <div class="df-row">
         <label class="float"><input type="text" name="sku" class="input glass" required pattern="[a-z0-9-]+" maxlength="80" placeholder=" "><span>SKU</span></label>
-        <label class="float"><input type="text" name="category" class="input glass" required maxlength="40" placeholder=" "><span>Category</span></label>
+        <label class="float">
+          <select name="category" class="input glass" required>
+            <option value="" disabled>Select category</option>
+            <option value="Candles">Candles</option>
+            <option value="Gift Sets">Gift Sets</option>
+            <option value="Engraving">Engraving</option>
+          </select>
+          <span>Category</span>
+        </label>
       </div>
       <label class="float"><input type="text" name="name" class="input glass" required maxlength="120" placeholder=" "><span>Product name</span></label>
       <div class="df-row">

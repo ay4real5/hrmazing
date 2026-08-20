@@ -266,10 +266,19 @@
     prodForm.querySelector('input[name="_index"]').value = idx;
     prodForm.sku.value = p.sku || '';
     prodForm.name.value = p.name || '';
-    prodForm.category.value = p.category || '';
     prodForm.price.value = p.price || 0;
     prodForm.grams.value = p.grams || 0;
     prodForm.shipping.value = p.shipping || 'worldwide';
+
+    // Ensure the category exists in the select; if not, add it dynamically.
+    const catSelect = prodForm.querySelector('select[name="category"]');
+    const catValue = p.category || '';
+    if (catValue && ![...catSelect.options].some(o => o.value === catValue)) {
+      const opt = document.createElement('option');
+      opt.value = opt.textContent = catValue;
+      catSelect.appendChild(opt);
+    }
+    catSelect.value = catValue;
     prodForm.badge.value = p.badge || '';
     prodForm.note.value = p.note || '';
     prodForm.contents.value = (p.contents || []).join('\n');
