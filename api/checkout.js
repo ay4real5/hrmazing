@@ -5,7 +5,7 @@
    ========================================================================== */
 
 const Stripe = require('stripe');
-const { effectiveCatalog } = require('./_store');
+const { effectiveCatalog } = require('./store-helpers');
 
 const MAX_QTY = 99;
 const MAX_LINES = 40;

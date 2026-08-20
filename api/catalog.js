@@ -3,7 +3,7 @@
    Public — no auth. The storefront hydrates from this.
    ========================================================================== */
 
-const { effectiveCatalog } = require('./_store');
+const { effectiveCatalog } = require('./store-helpers');
 
 module.exports = async (req, res) => {
   if (req.method !== 'GET') {

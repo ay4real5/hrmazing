@@ -4,8 +4,8 @@
    PUT  → { ok, settings }
    ========================================================================== */
 
-const { requireAdmin } = require('../_auth');
-const { loadOverrides, saveSettings, sanitizeSettings } = require('../_store');
+const { requireAdmin } = require('../auth-helpers');
+const { loadOverrides, saveSettings, sanitizeSettings } = require('../store-helpers');
 
 const DEFAULTS = {
   currency: 'usd',

@@ -3,7 +3,7 @@
    Returns a signed JWT valid for 12h if the password matches ADMIN_PASSWORD.
    ========================================================================== */
 
-const { sign, json } = require('./_auth');
+const { sign } = require('./auth-helpers');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {

@@ -4,8 +4,8 @@
    PUT  → save full override { products, shipping, cardStyles }
    ========================================================================== */
 
-const { requireAdmin, json } = require('./_auth');
-const { loadOverrides, saveCatalogOverride } = require('./_store');
+const { requireAdmin } = require('./auth-helpers');
+const { loadOverrides, saveCatalogOverride } = require('./store-helpers');
 const catalog = require('../shared/catalog.js');
 
 module.exports = async (req, res) => {

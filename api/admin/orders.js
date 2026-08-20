@@ -5,7 +5,7 @@
    ========================================================================== */
 
 const Stripe = require('stripe');
-const { requireAdmin } = require('../_auth');
+const { requireAdmin } = require('../auth-helpers');
 
 module.exports = async (req, res) => {
   const auth = requireAdmin(req);
