@@ -12,6 +12,9 @@
   const PREVIEW = new URLSearchParams(location.search).has('preview');
   const TOKEN_KEY = 'hermazing.admin.token';
 
+  let products = [], shipping = [], cardStyles = [], dirty = false;
+  let ordersLoaded = false;
+
   /* ---------- mock data for preview ---------- */
   const MOCK = {
     products: [
@@ -62,12 +65,15 @@
   function clearToken() { localStorage.removeItem(TOKEN_KEY); }
 
   function showLogin() { loginGate.hidden = false; app.hidden = true; }
-  function showApp() {
+  async function showApp() {
     loginGate.hidden = true; app.hidden = false;
     userEmail.textContent = PREVIEW ? 'Preview User' : 'Admin';
     userAvatar.textContent = PREVIEW ? 'P' : 'A';
     document.getElementById('previewPill').hidden = !PREVIEW;
-    initNav(); loadProducts(); loadSettings(); updateDashboard();
+    initNav();
+    await loadProducts();
+    await loadSettings();
+    updateDashboard();
   }
 
   async function authedFetch(path, opts) {
@@ -153,9 +159,6 @@
   /* ========================================================================
      Products
      ====================================================================== */
-  let products = [], shipping = [], cardStyles = [], dirty = false;
-  let ordersLoaded = false;
-
   const prodSearch = document.getElementById('prodSearch');
   const prodChips  = document.getElementById('prodChips');
   const prodsGrid  = document.getElementById('prodsGrid');
