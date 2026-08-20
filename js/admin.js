@@ -282,11 +282,13 @@
   }
   function closeDrawer() { drawer.classList.remove('is-open'); }
 
-  document.getElementById('prodDeleteBtn').addEventListener('click', () => {
+  document.getElementById('prodDeleteBtn').addEventListener('click', async () => {
     const idx = parseInt(prodForm._index.value, 10);
     if (!confirm(`Delete "${products[idx].name}"?`)) return;
     products.splice(idx, 1);
-    renderProducts(); renderChips(); markDirty(); closeDrawer();
+    renderProducts(); renderChips();
+    try { await saveAll(); closeDrawer(); }
+    catch (err) { markDirty(); }
   });
   document.getElementById('drawerClose').addEventListener('click', closeDrawer);
   document.getElementById('drawerScrim').addEventListener('click', closeDrawer);
@@ -310,7 +312,13 @@
     };
     if (idx === -1) products.push(data);
     else products[idx] = Object.assign({}, products[idx], data);
-    renderProducts(); renderChips(); markDirty(); closeDrawer();
+    renderProducts(); renderChips();
+    try {
+      await saveAll();
+      closeDrawer();
+    } catch (err) {
+      markDirty();
+    }
   });
 
   function markDirty() { dirty = true; saveAllBtn.disabled = false; }
@@ -399,7 +407,9 @@
       const data = await authedFetch(`${API}/admin/orders?limit=50`);
       MOCK.orders = data.orders || [];
       renderOrders(); updateDashboard();
-    } catch (err) { toast(err.message, 'error'); }
+    } catch (err) {
+      ordersGrid.innerHTML = `<div class="empty-banner">${escapeHtml(err.message)}<br><span>Set STRIPE_SECRET_KEY in Vercel env vars to load real orders.</span></div>`;
+    }
   }
 
   function renderOrders() {

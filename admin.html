@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/admin.css?v=4">
+<link rel="stylesheet" href="css/admin.css?v=5">
 <link rel="icon" type="image/png" href="images/favicon.png?v=0e2d18c1">
 </head>
 <body class="admin">
@@ -53,7 +53,7 @@
       </button>
       <p class="login-error" id="loginError" hidden></p>
     </form>
-    <p class="login-hint">Set <code>ADMIN_PASSWORD</code> + <code>JWT_SECRET</code> in Vercel env vars. <a href="?preview=1" class="demo-link" id="previewLink">Preview the design</a></p>
+    <p class="login-hint">Password is configured. For production, move ADMIN_PASSWORD and JWT_SECRET to Vercel env vars. <a href="?preview=1" class="demo-link" id="previewLink">Preview the design</a></p>
   </div>
 </div>
 
@@ -296,6 +296,6 @@
 <!-- toast container -->
 <div class="toast-stack" id="toastStack"></div>
 
-<script src="js/admin.js?v=3"></script>
+<script src="js/admin.js?v=4"></script>
 </body>
 </html>
