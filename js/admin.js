@@ -294,7 +294,7 @@
   document.getElementById('drawerScrim').addEventListener('click', closeDrawer);
   document.getElementById('addProductBtn').addEventListener('click', () => openProductDrawer(-1));
 
-  prodForm.addEventListener('submit', e => {
+  prodForm.addEventListener('submit', async e => {
     e.preventDefault();
     const idx = parseInt(prodForm._index.value, 10);
     const data = {
