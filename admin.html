@@ -275,6 +275,18 @@
         </label>
       </div>
       <label class="float"><input type="text" name="name" class="input glass" required maxlength="120" placeholder=" "><span>Product name</span></label>
+
+      <!-- product image -->
+      <div class="image-field">
+        <div class="image-preview" id="imagePreview"><span class="image-placeholder">No image</span></div>
+        <div class="image-controls">
+          <input type="file" name="imageFile" id="imageFile" accept="image/*" class="image-file">
+          <label for="imageFile" class="btn btn-ghost image-upload-btn">Choose image</label>
+          <input type="url" name="imageUrl" class="input glass image-url" placeholder="Or paste image URL…" maxlength="500">
+          <input type="hidden" name="image" id="imageData">
+        </div>
+      </div>
+
       <div class="df-row">
         <label class="float"><input type="number" name="price" class="input glass" required min="0" step="1" placeholder=" "><span>Price (cents)</span></label>
         <label class="float"><input type="number" name="grams" class="input glass" min="0" step="1" placeholder=" "><span>Weight (grams)</span></label>

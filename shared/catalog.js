@@ -184,6 +184,7 @@
     };
     if (p.badge)         clean.badge = String(p.badge).slice(0, 40);
     if (p.note)          clean.note = String(p.note).slice(0, 300);
+    if (p.image)         clean.image = String(p.image).slice(0, 2000);
     if (p.personalise)   clean.personalise = true;
     if (p.bestSeller)    clean.bestSeller = true;
     if (p.hidden)        clean.hidden = true;

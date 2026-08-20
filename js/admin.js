@@ -202,7 +202,7 @@
       return `
         <article class="prod-card glass ${p.hidden ? 'is-hidden' : ''}">
           ${p.hidden ? '<span class="prod-hidden">Hidden</span>' : ''}
-          <div class="prod-art">${productSvg(catClass)}</div>
+          <div class="prod-art">${p.image ? `<img src="${escapeAttr(p.image)}" alt="${escapeAttr(p.name)}">` : productSvg(catClass)}</div>
           <div class="prod-cat">${escapeHtml(p.category)}</div>
           <h3 class="prod-name">${escapeHtml(p.name)}</h3>
           <div class="prod-price">$${(p.price/100).toFixed(2)} <small>· ${p.grams}g</small></div>
@@ -285,9 +285,42 @@
     prodForm.personalise.checked = !!p.personalise;
     prodForm.bestSeller.checked = !!p.bestSeller;
     prodForm.hidden.checked = !!p.hidden;
+    setImagePreview(p.image || '');
     drawer.classList.add('is-open');
   }
   function closeDrawer() { drawer.classList.remove('is-open'); }
+
+  /* ---------- image handling ---------- */
+  const imageFile = document.getElementById('imageFile');
+  const imageUrl = prodForm.querySelector('input[name="imageUrl"]');
+  const imageData = document.getElementById('imageData');
+  const imagePreview = document.getElementById('imagePreview');
+
+  function setImagePreview(src) {
+    imageData.value = src || '';
+    if (src) {
+      imagePreview.innerHTML = `<img src="${src}" alt="">`;
+      imagePreview.classList.add('has-image');
+    } else {
+      imagePreview.innerHTML = '<span class="image-placeholder">No image</span>';
+      imagePreview.classList.remove('has-image');
+    }
+  }
+
+  imageFile.addEventListener('change', e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    if (f.size > 500 * 1024) { toast('Image too large — use under 500KB, or paste an external URL.', 'error'); return; }
+    const r = new FileReader();
+    r.onload = ev => { setImagePreview(ev.target.result); imageUrl.value = ''; };
+    r.readAsDataURL(f);
+  });
+
+  imageUrl.addEventListener('input', () => {
+    const v = imageUrl.value.trim();
+    if (v && /^https?:\/\//.test(v)) setImagePreview(v);
+    else if (!v) setImagePreview('');
+  });
 
   document.getElementById('prodDeleteBtn').addEventListener('click', async () => {
     const idx = parseInt(prodForm.querySelector('input[name="_index"]').value, 10);
@@ -312,6 +345,7 @@
       shipping: prodForm.shipping.value,
       badge: prodForm.badge.value.trim(),
       note: prodForm.note.value.trim(),
+      image: imageData.value || imageUrl.value.trim(),
       contents: prodForm.contents.value.split('\n').map(s => s.trim()).filter(Boolean),
       personalise: prodForm.personalise.checked,
       bestSeller: prodForm.bestSeller.checked,
