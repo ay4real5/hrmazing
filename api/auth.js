@@ -18,9 +18,13 @@ module.exports = async (req, res) => {
   const password = process.env.ADMIN_PASSWORD || HARDCODED_PASSWORD;
   const secret = process.env.JWT_SECRET || HARDCODED_SECRET;
 
-  let body;
-  try { body = JSON.parse(req.body || '{}'); }
-  catch { return res.status(400).json({ error: 'Malformed request.' }); }
+  const raw = req.body;
+  let body = {};
+  if (typeof raw === 'string') {
+    try { body = JSON.parse(raw || '{}'); } catch { return res.status(400).json({ error: 'Malformed request.' }); }
+  } else if (raw && typeof raw === 'object') {
+    body = raw;
+  }
 
   const submitted = typeof body.password === 'string' ? body.password : '';
   if (!submitted) return res.status(400).json({ error: 'Password required.' });

@@ -59,9 +59,13 @@ async function list(stripe, req, res) {
 }
 
 async function refund(stripe, req, res) {
-  let body;
-  try { body = JSON.parse(req.body || '{}'); }
-  catch { return res.status(400).json({ error: 'Malformed request.' }); }
+  const raw = req.body;
+  let body = {};
+  if (typeof raw === 'string') {
+    try { body = JSON.parse(raw || '{}'); } catch { return res.status(400).json({ error: 'Malformed request.' }); }
+  } else if (raw && typeof raw === 'object') {
+    body = raw;
+  }
 
   if (body.action !== 'refund' || !body.paymentIntent) {
     return res.status(400).json({ error: 'Expected { action: "refund", paymentIntent: "pi_..." }.' });

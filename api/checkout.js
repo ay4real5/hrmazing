@@ -28,10 +28,16 @@ module.exports = async (req, res) => {
     });
   }
 
-  let lines, gift;
-  try { ({ lines, gift } = JSON.parse(req.body || '{}')); }
-  catch { return res.status(400).json({ error: 'Malformed request.' }); }
-  gift = gift && typeof gift === 'object' ? gift : {};
+  const raw = req.body;
+  let body = {};
+  if (typeof raw === 'string') {
+    try { body = JSON.parse(raw || '{}'); } catch { return res.status(400).json({ error: 'Malformed request.' }); }
+  } else if (raw && typeof raw === 'object') {
+    body = raw;
+  }
+
+  const { lines, gift: rawGift } = body;
+  const gift = rawGift && typeof rawGift === 'object' ? rawGift : {};
 
   if (!Array.isArray(lines) || !lines.length) {
     return res.status(400).json({ error: 'Your basket is empty.' });

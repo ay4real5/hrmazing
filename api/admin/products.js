@@ -31,9 +31,13 @@ async function get(res) {
 }
 
 async function put(req, res) {
-  let body;
-  try { body = JSON.parse(req.body || '{}'); }
-  catch { return res.status(400).json({ error: 'Malformed request.' }); }
+  const raw = req.body;
+  let body = {};
+  if (typeof raw === 'string') {
+    try { body = JSON.parse(raw || '{}'); } catch { return res.status(400).json({ error: 'Malformed request.' }); }
+  } else if (raw && typeof raw === 'object') {
+    body = raw;
+  }
 
   const products = Array.isArray(body.products) ? body.products : [];
   const shipping = Array.isArray(body.shipping) ? body.shipping : [];
