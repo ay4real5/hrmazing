@@ -46,29 +46,80 @@ Only switch to the live key once a test order has gone through correctly.
 
 ---
 
-## Step 3 — Deploy to Netlify
+## Step 3 — Deploy to Vercel
 
-GitHub Pages can only serve files — it cannot run the checkout code or keep a
-secret key safe. Netlify can, and it is free at this scale.
+The site is deployed on Vercel. The checkout, admin and catalogue all run as
+Vercel serverless functions in `/api/`.
 
-1. Go to **https://app.netlify.com** and sign in with GitHub.
-2. *Add new site → Import an existing project* → pick the `hrmazing` repo.
-3. Leave the build settings as they are — `netlify.toml` already configures
-   everything. Deploy.
-4. Open **Site configuration → Environment variables** and add:
+1. Go to **https://vercel.com** and sign in with GitHub.
+2. *Add New → Project* → import the `hrmazing` repo.
+3. Vercel auto-detects the settings from `vercel.json`. Deploy.
+4. Open **Settings → Environment Variables** and add:
 
-   | Key | Value |
-   |---|---|
-   | `STRIPE_SECRET_KEY` | your Stripe secret key (`sk_test_…`, then `sk_live_…`) |
+   | Key | Value | Required for |
+   |---|---|---|
+   | `STRIPE_SECRET_KEY` | your Stripe secret key (`sk_test_…`, then `sk_live_…`) | Checkout + orders |
+   | `ADMIN_PASSWORD` | a strong password you'll type at `/admin.html` | Admin login |
+   | `JWT_SECRET` | a long random string (e.g. `openssl rand -hex 32`) | Admin login |
+   | `UPSTASH_REDIS_REST_URL` | your Upstash Redis REST URL | Admin persistence |
+   | `UPSTASH_REDIS_REST_TOKEN` | your Upstash Redis REST token | Admin persistence |
 
-5. **Redeploy** after adding the variable — functions only pick up environment
+5. **Redeploy** after adding the variables — functions only pick up environment
    variables on a fresh deploy.
 
-### ⚠️ Never put the secret key in the code
-It must only ever live in Netlify's environment variables. Anyone with that key
-can charge cards and issue refunds on the account. `.gitignore` already blocks
-`.env` files so it cannot be committed by accident. If it is ever exposed, roll
-it immediately in the Stripe dashboard.
+### ⚠️ Never put secrets in the code
+They must only ever live in Vercel's environment variables. `.gitignore`
+already blocks `.env` files so they cannot be committed by accident. If a key
+is ever exposed, roll it immediately in the Stripe / Upstash dashboard.
+
+---
+
+## Admin section
+
+The admin dashboard lives at **`/admin.html`** on your deployed site:
+
+```
+https://hrmazing.vercel.app/admin.html
+```
+
+It has four sections:
+
+- **Dashboard** — stats (products, orders, revenue, customers), recent orders, top sellers
+- **Products** — edit prices, names, categories, shipping scope, badges, hide/show products
+- **Orders** — list Stripe checkout sessions, refund in full with one click
+- **Settings** — announcement bar, contact email/phone, currency, placeholder flag
+
+### Setting up the admin
+
+1. **Set the env vars** (see Step 3 above): `ADMIN_PASSWORD`, `JWT_SECRET`,
+   `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`.
+2. **Create a free Upstash Redis database** at https://console.upstash.com.
+   Copy the REST URL and REST token into the Vercel env vars. This is where
+   product/settings overrides are stored. Without it, the admin still works
+   but changes don't persist across deploys.
+3. **Redeploy** on Vercel so the functions pick up the new env vars.
+4. Visit `/admin.html`, type your `ADMIN_PASSWORD`, and you're in.
+
+### Previewing the admin design locally
+
+```
+http://localhost:8890/admin.html?preview=1
+```
+
+The `?preview=1` flag loads the full UI with mock data — no backend, no env
+vars, no login needed. Useful for checking the design before deploying.
+
+### How admin auth works
+
+- You type a password at `/admin.html`.
+- `POST /api/auth` checks it against `ADMIN_PASSWORD` and returns a signed JWT
+  (HS256, valid 12h).
+- The JWT is stored in `localStorage` and sent as `Bearer` on every admin
+  request.
+- Every `/api/admin/*` route verifies the JWT with `JWT_SECRET` before doing
+  anything.
+
+No external identity service (Netlify Identity, Auth0, Clerk) is needed.
 
 ---
 
@@ -76,18 +127,22 @@ it immediately in the Stripe dashboard.
 
 ```bash
 npm install
-npm install -g netlify-cli
-netlify dev          # serves the site AND the checkout function
+npm install -g vercel
+vercel dev          # serves the site AND the API functions
 ```
 
 Create a `.env` file (already git-ignored) with:
 
 ```
 STRIPE_SECRET_KEY=sk_test_your_test_key_here
+ADMIN_PASSWORD=your_admin_password
+JWT_SECRET=your_jwt_secret
+UPSTASH_REDIS_REST_URL=https://xxx.upstash.io
+UPSTASH_REDIS_REST_TOKEN=your_token
 ```
 
 Opening `index.html` directly by double-clicking still works for browsing the
-site, but checkout will not run — it needs `netlify dev`.
+site, but checkout and admin will not run — they need `vercel dev`.
 
 ---
 
@@ -181,9 +236,9 @@ Opening hours live in `js/shop.js` (`isOpenNow`) — adjust if they change.
 
 These are business decisions, not code:
 
-- [ ] Real prices and weights in `shared/catalog.js`
+- [ ] Real prices and weights in `shared/catalog.js` (or set them via `/admin.html`)
 - [ ] Decide the local delivery radius, and what "local delivery" costs
-- [ ] Trim the shipping country list in `netlify/functions/create-checkout.js`
+- [ ] Trim the shipping country list in `api/checkout.js`
       to places Kayyleb will actually post to
 - [ ] Write a returns/refund policy — required by Stripe, and customers will ask.
       Personalised and perishable goods are normally excluded from the usual
@@ -191,4 +246,4 @@ These are business decisions, not code:
 - [ ] Add terms of service and a privacy policy
 - [ ] Confirm whether sales tax needs collecting. Stripe Tax can handle this
       automatically, but somebody has to decide whether it applies
-- [ ] Point a proper domain at the Netlify site
+- [ ] Point a proper domain at the Vercel site

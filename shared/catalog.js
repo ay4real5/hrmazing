@@ -100,28 +100,111 @@
 
   /* Shown as a badge on cards and as a "Best Sellers" filter. */
   const BEST_SELLERS = ['candle-fall', 'gift-rose-basket', 'eng-tumbler', 'gift-mom-money', 'eng-emblem'];
-  BEST_SELLERS.forEach(sku => { const p = PRODUCTS.find(x => x.sku === sku); if (p) p.bestSeller = true; });
-  Object.entries(CONTENTS).forEach(([sku, list]) => {
-    const p = PRODUCTS.find(x => x.sku === sku); if (p) p.contents = list;
-  });
-
-  const bySku = Object.fromEntries(PRODUCTS.map(p => [p.sku, p]));
 
   /** Format cents as a display price. */
   function money(cents) {
     return '$' + (cents / 100).toFixed(2);
   }
 
-  /** True when the basket contains anything that must not be posted. */
-  function hasLocalOnly(lines) {
-    return lines.some(l => (bySku[l.sku] || {}).shipping === 'local');
+  /* ------------------------------------------------------------------------
+     Build an effective catalogue from the seed + any admin overrides.
+
+     overrides = {
+       products:   Array  — REPLACES the product list when present.
+                            Each item: { sku, name, price, grams, category,
+                                         shipping, badge?, note?, personalise?,
+                                         bestSeller?, contents?, hidden? }
+       shipping:   Array  — REPLACES the shipping options when present.
+       cardStyles: Array  — REPLACES the greeting-card occasions when present.
+       settings:   Object — store-wide settings (currency, placeholders flag).
+     }
+
+     Anything omitted falls back to the seed, so a partial override (e.g. only
+     editing one product) still works: the admin UI always sends the FULL
+     current list, so omission just means "no overrides stored yet".
+     ---------------------------------------------------------------------- */
+  function buildCatalog(overrides) {
+    const ov = overrides && typeof overrides === 'object' ? overrides : {};
+
+    const products = (Array.isArray(ov.products) ? ov.products : PRODUCTS)
+      .map(cloneProduct)
+      .filter(p => p && p.sku && typeof p.price === 'number');
+
+    // mark best sellers + attach contents (overrides may set these per-item too)
+    products.forEach(p => {
+      if (p.bestSeller === undefined) {
+        p.bestSeller = BEST_SELLERS.includes(p.sku);
+      }
+      if (!p.contents && CONTENTS[p.sku]) p.contents = CONTENTS[p.sku];
+    });
+
+    const shipping = (Array.isArray(ov.shipping) ? ov.shipping : SHIPPING)
+      .map(s => ({ ...s }))
+      .filter(s => s && s.id && s.scope);
+
+    const cardStyles = Array.isArray(ov.cardStyles) ? ov.cardStyles.slice() : CARD_STYLES.slice();
+
+    const settings = Object.assign(
+      { currency: CURRENCY, pricesArePlaceholders: true },
+      ov.settings && typeof ov.settings === 'object' ? ov.settings : {}
+    );
+
+    const bySku = Object.fromEntries(products.map(p => [p.sku, p]));
+
+    function hasLocalOnly(lines) {
+      return lines.some(l => (bySku[l.sku] || {}).shipping === 'local');
+    }
+    function shippingFor(lines) {
+      return hasLocalOnly(lines) ? shipping.filter(s => s.scope === 'local') : shipping;
+    }
+
+    return {
+      CURRENCY: settings.currency,
+      PRODUCTS: products,
+      SHIPPING: shipping,
+      CARD_STYLES: cardStyles,
+      SETTINGS: settings,
+      bySku,
+      money,
+      hasLocalOnly,
+      shippingFor,
+      PRICES_ARE_PLACEHOLDERS: !!settings.pricesArePlaceholders
+    };
   }
 
-  /** Shipping choices valid for the given basket. */
-  function shippingFor(lines) {
-    return hasLocalOnly(lines) ? SHIPPING.filter(s => s.scope === 'local') : SHIPPING;
+  function cloneProduct(p) {
+    if (!p || typeof p !== 'object') return null;
+    const clean = {
+      sku: String(p.sku).trim().slice(0, 80),
+      name: String(p.name || '').trim().slice(0, 120),
+      price: Math.round(Number(p.price)),
+      grams: Math.max(0, Math.round(Number(p.grams) || 0)),
+      category: String(p.category || '').trim().slice(0, 40),
+      shipping: p.shipping === 'local' ? 'local' : 'worldwide'
+    };
+    if (p.badge)         clean.badge = String(p.badge).slice(0, 40);
+    if (p.note)          clean.note = String(p.note).slice(0, 300);
+    if (p.personalise)   clean.personalise = true;
+    if (p.bestSeller)    clean.bestSeller = true;
+    if (p.hidden)        clean.hidden = true;
+    if (Array.isArray(p.contents)) {
+      clean.contents = p.contents.map(s => String(s).slice(0, 120)).slice(0, 20);
+    }
+    return clean;
   }
 
-  return { CURRENCY, PRODUCTS, SHIPPING, CARD_STYLES, bySku, money,
-           hasLocalOnly, shippingFor, PRICES_ARE_PLACEHOLDERS: true };
+  // The seed catalogue — what the browser loads by default before hydrating
+  // any admin overrides from the server.
+  const SEED = {
+    products: PRODUCTS,
+    shipping: SHIPPING,
+    cardStyles: CARD_STYLES,
+    contents: CONTENTS,
+    bestSellers: BEST_SELLERS,
+    currency: CURRENCY
+  };
+
+  const seedCatalog = buildCatalog();
+
+  return Object.assign(seedCatalog, { buildCatalog, SEED });
 });

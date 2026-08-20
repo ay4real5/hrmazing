@@ -4,8 +4,8 @@
   "private": true,
   "description": "HER-mazing Touch — candles, gift sets and custom engraving",
   "scripts": {
-    "dev": "netlify dev",
-    "deploy": "netlify deploy --prod"
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
   },
   "dependencies": {
     "stripe": "^17.5.0"

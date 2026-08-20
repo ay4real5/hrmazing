@@ -1,65 +1,63 @@
 /* ============================================================================
-   Creates a Stripe Checkout Session.
-
-   SECURITY: the browser sends only { sku, qty, note }. Every price is looked
-   up again from shared/catalog.js on the server, so editing the cart in
-   localStorage or devtools cannot change what is charged.
-
-   Requires the STRIPE_SECRET_KEY environment variable (set in the Netlify
-   dashboard — never commit it). See SETUP.md.
+   POST /api/checkout  { lines, gift }  →  { url }
+   Creates a Stripe Checkout Session. Server-side pricing from shared/catalog.js.
+   Requires STRIPE_SECRET_KEY env var.
    ========================================================================== */
 
 const Stripe = require('stripe');
-const catalog = require('../../shared/catalog.js');
+const { effectiveCatalog } = require('./_store');
 
 const MAX_QTY = 99;
 const MAX_LINES = 40;
 
-exports.handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return json(405, { error: 'Method not allowed' });
+const SHIPPING_COUNTRIES = [
+  'US','CA','GB','IE','AU','NZ','DE','FR','ES','IT','NL','BE','AT','CH','SE','NO','DK','FI',
+  'PL','PT','CZ','GR','RO','HU','NG','GH','KE','ZA','AE','SA','QA','IN','SG','MY','JP','KR',
+  'BR','MX','AR','CL','JM','TT','BB'
+];
+
+module.exports = async (req, res) => {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed.' });
   }
 
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) {
-    return json(500, {
-      error: 'Payments are not configured yet. Add STRIPE_SECRET_KEY in Netlify — see SETUP.md.'
+    return res.status(500).json({
+      error: 'Payments are not configured yet. Add STRIPE_SECRET_KEY in Vercel — see SETUP.md.'
     });
   }
 
   let lines, gift;
-  try {
-    ({ lines, gift } = JSON.parse(event.body || '{}'));
-  } catch {
-    return json(400, { error: 'Malformed request.' });
-  }
+  try { ({ lines, gift } = JSON.parse(req.body || '{}')); }
+  catch { return res.status(400).json({ error: 'Malformed request.' }); }
   gift = gift && typeof gift === 'object' ? gift : {};
 
   if (!Array.isArray(lines) || !lines.length) {
-    return json(400, { error: 'Your basket is empty.' });
+    return res.status(400).json({ error: 'Your basket is empty.' });
   }
   if (lines.length > MAX_LINES) {
-    return json(400, { error: 'Too many items in one order — please split it or contact us.' });
+    return res.status(400).json({ error: 'Too many items in one order — please split it or contact us.' });
   }
 
-  // Rebuild every line from the catalogue. Anything unknown is rejected outright.
+  const catalog = await effectiveCatalog();
+
   const items = [];
   for (const line of lines) {
     const product = catalog.bySku[line.sku];
-    if (!product) return json(400, { error: `Unknown item: ${line.sku}` });
-
+    if (!product || product.hidden) {
+      return res.status(400).json({ error: `Unknown item: ${line.sku}` });
+    }
     const qty = Math.floor(Number(line.qty));
     if (!Number.isFinite(qty) || qty < 1 || qty > MAX_QTY) {
-      return json(400, { error: `Invalid quantity for ${product.name}.` });
+      return res.status(400).json({ error: `Invalid quantity for ${product.name}.` });
     }
-
     const note = typeof line.note === 'string' ? line.note.trim().slice(0, 120) : '';
-
     items.push({
       quantity: qty,
       price_data: {
         currency: catalog.CURRENCY,
-        unit_amount: product.price,              // ← server-side price, always
+        unit_amount: product.price,
         product_data: {
           name: product.name,
           metadata: { sku: product.sku },
@@ -69,7 +67,6 @@ exports.handler = async (event) => {
     });
   }
 
-  // Perishable / cash items restrict the whole order to local fulfilment.
   const localOnly = catalog.hasLocalOnly(lines);
   const shipping = catalog.shippingFor(lines).map(s => ({
     shipping_rate_data: {
@@ -84,14 +81,12 @@ exports.handler = async (event) => {
   }));
 
   const origin =
-    event.headers.origin ||
-    (event.headers.host ? `https://${event.headers.host}` : '');
+    req.headers.origin ||
+    (req.headers.host ? `https://${req.headers.host}` : '');
 
   const clean = (v, n) => (typeof v === 'string' ? v.trim().slice(0, n) : '');
   const cardStyle   = clean(gift.cardStyle, 40);
   const cardMessage = clean(gift.cardMessage, 200);
-  // "Send it without their address" — we collect the recipient's details
-  // afterwards, so Stripe must not demand a shipping address up front.
   const noAddress   = gift.noAddress === true;
 
   try {
@@ -99,11 +94,9 @@ exports.handler = async (event) => {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: items,
-      // a surprise gift has no address yet, so shipping is quoted separately
       ...(noAddress ? {} : {
         shipping_options: shipping,
         shipping_address_collection: {
-          // cash + perishables never leave the country
           allowed_countries: localOnly ? ['US'] : SHIPPING_COUNTRIES
         }
       }),
@@ -112,8 +105,7 @@ exports.handler = async (event) => {
       custom_fields: noAddress ? [{
         key: 'recipient_contact',
         label: { type: 'custom', custom: "Recipient's phone or email" },
-        type: 'text',
-        optional: false
+        type: 'text', optional: false
       }] : [],
       metadata: {
         local_only: String(localOnly),
@@ -124,26 +116,9 @@ exports.handler = async (event) => {
       success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cancel.html`
     });
-
-    return json(200, { url: session.url });
+    return res.status(200).json({ url: session.url });
   } catch (err) {
     console.error('Stripe error:', err);
-    // Never leak Stripe internals to the browser.
-    return json(502, { error: 'We could not start checkout. Please try again, or text us to order.' });
+    return res.status(502).json({ error: 'We could not start checkout. Please try again, or text us to order.' });
   }
 };
-
-/* A conservative worldwide list. Trim it to where Kayyleb will actually post. */
-const SHIPPING_COUNTRIES = [
-  'US','CA','GB','IE','AU','NZ','DE','FR','ES','IT','NL','BE','AT','CH','SE','NO','DK','FI',
-  'PL','PT','CZ','GR','RO','HU','NG','GH','KE','ZA','AE','SA','QA','IN','SG','MY','JP','KR',
-  'BR','MX','AR','CL','JM','TT','BB'
-];
-
-function json(statusCode, body) {
-  return {
-    statusCode,
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
-    body: JSON.stringify(body)
-  };
-}

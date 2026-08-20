@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · HER-mazing Touch</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css?v=2">
+<link rel="icon" type="image/png" href="images/favicon.png?v=0e2d18c1">
+</head>
+<body class="admin">
+
+<!-- animated background -->
+<div class="admin-bg" aria-hidden="true">
+  <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
+  <span class="orb o4"></span><span class="orb o5"></span>
+  <div class="glow-bar"></div>
+</div>
+
+<!-- ============ login gate ============ -->
+<div class="login-gate" id="loginGate">
+  <div class="login-frame glass">
+    <div class="login-art">
+      <svg viewBox="0 0 220 180" class="candle-illo" aria-hidden="true">
+        <ellipse cx="110" cy="165" rx="60" ry="10" fill="rgba(246,228,176,.12)"/>
+        <g class="flame">
+          <ellipse cx="110" cy="45" rx="28" ry="34" fill="url(#agHalo)"/>
+          <path d="M110 18 c11 18 17 28 17 37 a17 17 0 0 1-34 0 c0-9 6-19 17-37z" fill="url(#agFlame)" class="flame-outer"/>
+          <path d="M110 40 c6 9 9 14 9 19 a9 9 0 0 1-18 0 c0-5 3-10 9-19z" fill="#FFF6DA" opacity=".9" class="flame-inner"/>
+        </g>
+        <rect x="62" y="82" width="96" height="80" rx="12" fill="var(--wax,#F0E2C8)" opacity=".15"/>
+        <rect x="55" y="62" width="110" height="105" rx="16" fill="url(#agGlass)" stroke="#F2DCA4" stroke-opacity=".35" stroke-width="1.5"/>
+        <ellipse cx="110" cy="64" rx="55" ry="9" fill="none" stroke="url(#agGold)" stroke-width="2.5"/>
+      </svg>
+    </div>
+    <div class="login-logo">
+      <img src="images/logo-mark.webp?v=621fa830" alt="" width="90" height="87">
+      <span class="script">HER-mazing</span>
+      <h1>Admin</h1>
+      <p class="login-sub">Sign in to manage the atelier</p>
+    </div>
+    <form id="loginForm" class="login-form">
+      <label class="float">
+        <input type="password" name="password" required autocomplete="current-password" placeholder=" ">
+        <span>Admin password</span>
+      </label>
+      <button type="submit" class="btn btn-gold" id="loginBtn">
+        <span>Sign in</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <p class="login-error" id="loginError" hidden></p>
+    </form>
+    <p class="login-hint">Set <code>ADMIN_PASSWORD</code> + <code>JWT_SECRET</code> in Vercel env vars. <a href="?preview=1" class="demo-link" id="previewLink">Preview the design</a></p>
+  </div>
+</div>
+
+<!-- SVG defs for admin -->
+<svg class="svg-defs" aria-hidden="true" width="0" height="0">
+  <defs>
+    <radialGradient id="agHalo"><stop offset="0%" stop-color="#FFC46B" stop-opacity=".85"/><stop offset="100%" stop-color="#FFC46B" stop-opacity="0"/></radialGradient>
+    <linearGradient id="agFlame" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF1C0"/><stop offset="45%" stop-color="#F5B94C"/><stop offset="100%" stop-color="#E07B23"/></linearGradient>
+    <linearGradient id="agGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F6E4B0"/><stop offset="38%" stop-color="#D9B25E"/><stop offset="62%" stop-color="#B8912F"/><stop offset="100%" stop-color="#F2DCA4"/></linearGradient>
+    <linearGradient id="agGlass" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ffffff" stop-opacity=".12"/><stop offset="50%" stop-color="#ffffff" stop-opacity=".04"/><stop offset="100%" stop-color="#ffffff" stop-opacity=".10"/></linearGradient>
+  </defs>
+</svg>
+
+<!-- ============ app shell ============ -->
+<div class="app" id="app" hidden>
+
+  <aside class="app-nav glass" id="appNav">
+    <div class="nav-brand">
+      <img src="images/logo-mark.webp?v=621fa830" alt="" width="42" height="41">
+      <div><span class="script">HER-mazing</span><em>Admin</em></div>
+    </div>
+    <nav class="nav-list">
+      <button class="nav-item is-active" data-atab="dashboard" data-icon="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="6" height="6" rx="2"/><rect x="14" y="4" width="6" height="6" rx="2"/><rect x="4" y="14" width="6" height="6" rx="2"/><rect x="14" y="14" width="6" height="6" rx="2"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" data-atab="products" data-icon="products">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span>Products</span>
+      </button>
+      <button class="nav-item" data-atab="orders" data-icon="orders">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+        <span>Orders</span>
+      </button>
+      <button class="nav-item" data-atab="settings" data-icon="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+    <div class="nav-user">
+      <div class="user-avatar" id="userAvatar"></div>
+      <div class="user-info"><span id="userEmail"></span><button id="logoutBtn">Sign out</button></div>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <header class="app-top glass">
+      <div class="top-breadcrumb" id="topBreadcrumb">Dashboard</div>
+      <div class="top-meta">
+        <span class="preview-pill" id="previewPill" hidden>Preview mode</span>
+        <button class="top-action" id="saveAllBtn" title="Save changes" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save
+        </button>
+      </div>
+    </header>
+
+    <div class="app-stage" id="appStage">
+
+      <!-- ===== dashboard ===== -->
+      <section class="atab-panel is-active" data-atab-panel="dashboard" id="dashboardPanel">
+        <div class="dash-hero">
+          <h1 class="script dash-title">Good evening, maker.</h1>
+          <p class="dash-lead">Here is how the atelier is glowing today.</p>
+          <div class="dash-stats">
+            <div class="stat glass">
+              <div class="stat-icon" style="--g:#C9A227"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div>
+              <div class="stat-value" id="statProducts">—</div>
+              <div class="stat-label">Products</div>
+            </div>
+            <div class="stat glass">
+              <div class="stat-icon" style="--g:#E8A33D"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+              <div class="stat-value" id="statOrders">—</div>
+              <div class="stat-label">Orders</div>
+            </div>
+            <div class="stat glass">
+              <div class="stat-icon" style="--g:#6E7F55"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+              <div class="stat-value" id="statRevenue">—</div>
+              <div class="stat-label">Revenue</div>
+            </div>
+            <div class="stat glass">
+              <div class="stat-icon" style="--g:#D69B7E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+              <div class="stat-value" id="statCustomers">—</div>
+              <div class="stat-label">Customers</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="dash-card glass wide">
+            <div class="card-head"><h3>Recent orders</h3><button class="link" data-go="orders">View all</button></div>
+            <div class="orders-strip" id="dashOrders">Loading…</div>
+          </div>
+          <div class="dash-card glass">
+            <div class="card-head"><h3>Top sellers</h3></div>
+            <div class="top-list" id="dashTopSellers">Loading…</div>
+          </div>
+          <div class="dash-card glass">
+            <div class="card-head"><h3>Quick actions</h3></div>
+            <div class="quick-actions">
+              <button class="qa" data-go="products"><span>Add product</span></button>
+              <button class="qa" data-go="settings"><span>Edit announcement</span></button>
+              <button class="qa" data-go="orders"><span>Refund an order</span></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== products ===== -->
+      <section class="atab-panel" data-atab-panel="products" id="productsPanel">
+        <div class="panel-hero glass">
+          <div class="panel-h">
+            <h2 class="script">Products</h2>
+            <p>Hand-poured, hand-finished, hand-curated.</p>
+          </div>
+          <div class="panel-filters">
+            <div class="search-wrap">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="search" id="prodSearch" class="input glass" placeholder="Search by name or SKU…">
+            </div>
+            <div class="chipbar" id="prodChips"></div>
+          </div>
+          <button class="btn btn-gold" id="addProductBtn"><span>Add product</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        </div>
+
+        <div class="prods-grid" id="prodsGrid">Loading products…</div>
+
+        <div class="section-divider"></div>
+
+        <div class="two-col">
+          <div class="dash-card glass">
+            <div class="card-head"><h3>Shipping rates</h3><button class="link" id="addShipBtn">+ Add option</button></div>
+            <div class="ship-list" id="shipList"></div>
+          </div>
+          <div class="dash-card glass">
+            <div class="card-head"><h3>Greeting card occasions</h3></div>
+            <input type="text" id="cardStylesInput" class="input glass" placeholder="Birthday, Thank You, Wedding…">
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== orders ===== -->
+      <section class="atab-panel" data-atab-panel="orders" id="ordersPanel">
+        <div class="panel-hero glass">
+          <div class="panel-h">
+            <h2 class="script">Orders</h2>
+            <p>Every basket, box and bouquet.</p>
+          </div>
+          <div class="panel-filters">
+            <div class="chipbar" id="orderChips">
+              <button class="chip is-active" data-filter="all">All</button>
+              <button class="chip" data-filter="paid">Paid</button>
+              <button class="chip" data-filter="unpaid">Unpaid</button>
+              <button class="chip" data-filter="refunded">Refunded</button>
+            </div>
+            <button class="btn btn-ghost" id="refreshOrdersBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              Refresh
+            </button>
+          </div>
+        </div>
+        <div class="orders-grid" id="ordersGrid">Loading orders…</div>
+        <div class="load-more" id="ordersMoreWrap" hidden>
+          <button class="btn btn-ghost" id="ordersMoreBtn">Load more</button>
+        </div>
+      </section>
+
+      <!-- ===== settings ===== -->
+      <section class="atab-panel" data-atab-panel="settings" id="settingsPanel">
+        <div class="panel-hero glass">
+          <div class="panel-h">
+            <h2 class="script">Settings</h2>
+            <p>Store-wide mood, money and messages.</p>
+          </div>
+        </div>
+        <form id="settingsForm" class="settings-grid">
+          <div class="dash-card glass">
+            <div class="card-head"><h3>Storefront</h3></div>
+            <label class="float"><input type="text" name="announcement" class="input glass" placeholder=" "><span>Announcement bar text</span></label>
+            <label class="float"><input type="email" name="email" class="input glass" placeholder=" "><span>Contact email</span></label>
+            <label class="float"><input type="tel" name="phone" class="input glass" placeholder=" "><span>Contact phone</span></label>
+          </div>
+          <div class="dash-card glass">
+            <div class="card-head"><h3>Payments</h3></div>
+            <label class="float"><input type="text" name="currency" class="input glass" placeholder=" " maxlength="8"><span>Currency code</span></label>
+            <label class="toggle"><input type="checkbox" name="pricesArePlaceholders"><span class="toggler"></span> Prices are still placeholders</label>
+          </div>
+          <div class="settings-actions">
+            <button type="submit" class="btn btn-gold" id="saveSettingsBtn">Save settings</button>
+            <span class="ok-flag" id="settingsSaved" hidden>Saved</span>
+          </div>
+        </form>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- ============ product editor drawer ============ -->
+<div class="drawer" id="prodDrawer" hidden>
+  <div class="drawer-scrim" id="drawerScrim"></div>
+  <div class="drawer-card glass">
+    <div class="drawer-head">
+      <h3 id="drawerTitle">Edit product</h3>
+      <button class="drawer-close" id="drawerClose" aria-label="Close">&times;</button>
+    </div>
+    <form id="prodForm" class="drawer-form">
+      <input type="hidden" name="_index">
+      <div class="df-row">
+        <label class="float"><input type="text" name="sku" class="input glass" required pattern="[a-z0-9-]+" maxlength="80" placeholder=" "><span>SKU</span></label>
+        <label class="float"><input type="text" name="category" class="input glass" required maxlength="40" placeholder=" "><span>Category</span></label>
+      </div>
+      <label class="float"><input type="text" name="name" class="input glass" required maxlength="120" placeholder=" "><span>Product name</span></label>
+      <div class="df-row">
+        <label class="float"><input type="number" name="price" class="input glass" required min="0" step="1" placeholder=" "><span>Price (cents)</span></label>
+        <label class="float"><input type="number" name="grams" class="input glass" min="0" step="1" placeholder=" "><span>Weight (grams)</span></label>
+      </div>
+      <div class="df-row">
+        <label class="float">
+          <select name="shipping" class="input glass" style="padding-right:36px"><option value="worldwide">Ships worldwide</option><option value="local">Local delivery / pickup only</option></select>
+          <span>Shipping scope</span>
+        </label>
+        <label class="float"><input type="text" name="badge" class="input glass" maxlength="40" placeholder=" "><span>Badge (optional)</span></label>
+      </div>
+      <label class="float"><textarea name="note" class="input glass" rows="3" maxlength="300" placeholder=" "></textarea><span>Customer note (optional)</span></label>
+      <label class="float"><textarea name="contents" class="input glass" rows="5" placeholder=" "></textarea><span>Contents — one per line</span></label>
+      <div class="df-checks">
+        <label class="toggle"><input type="checkbox" name="personalise"><span class="toggler"></span> Personalised to order</label>
+        <label class="toggle"><input type="checkbox" name="bestSeller"><span class="toggler"></span> Best seller</label>
+        <label class="toggle"><input type="checkbox" name="hidden"><span class="toggler"></span> Hidden on storefront</label>
+      </div>
+      <div class="drawer-actions">
+        <button type="button" class="btn btn-ghost" id="prodDeleteBtn" hidden>Delete</button>
+        <button type="submit" class="btn btn-gold" id="prodSaveBtn">Save product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- toast container -->
+<div class="toast-stack" id="toastStack"></div>
+
+<script src="js/admin.js?v=3"></script>
+</body>
+</html>
