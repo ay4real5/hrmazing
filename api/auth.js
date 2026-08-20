@@ -10,14 +10,13 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed.' });
   }
 
-  const password = process.env.ADMIN_PASSWORD;
-  const secret = process.env.JWT_SECRET;
+  // ⚠️  Hardcoded for convenience. For production, move ADMIN_PASSWORD and
+  //     JWT_SECRET to Vercel environment variables instead of committing them.
+  const HARDCODED_PASSWORD = 'Gentleman@101';
+  const HARDCODED_SECRET = 'devin-hardcoded-secret-change-me-in-prod';
 
-  if (!password || !secret) {
-    return res.status(500).json({
-      error: 'Admin is not configured. Set ADMIN_PASSWORD and JWT_SECRET in Vercel env vars. See SETUP.md.'
-    });
-  }
+  const password = process.env.ADMIN_PASSWORD || HARDCODED_PASSWORD;
+  const secret = process.env.JWT_SECRET || HARDCODED_SECRET;
 
   let body;
   try { body = JSON.parse(req.body || '{}'); }
