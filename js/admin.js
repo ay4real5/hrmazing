@@ -265,7 +265,7 @@
     const p = isNew ? { sku:'', name:'', price:0, grams:0, category:'', shipping:'worldwide' } : products[idx];
     document.getElementById('drawerTitle').textContent = isNew ? 'New creation' : `Edit · ${p.sku}`;
     document.getElementById('prodDeleteBtn').hidden = isNew;
-    prodForm._index.value = idx;
+    prodForm.querySelector('input[name="_index"]').value = idx;
     prodForm.sku.value = p.sku || '';
     prodForm.name.value = p.name || '';
     prodForm.category.value = p.category || '';
@@ -283,7 +283,7 @@
   function closeDrawer() { drawer.classList.remove('is-open'); }
 
   document.getElementById('prodDeleteBtn').addEventListener('click', async () => {
-    const idx = parseInt(prodForm._index.value, 10);
+    const idx = parseInt(prodForm.querySelector('input[name="_index"]').value, 10);
     if (!confirm(`Delete "${products[idx].name}"?`)) return;
     products.splice(idx, 1);
     renderProducts(); renderChips();
@@ -296,7 +296,7 @@
 
   prodForm.addEventListener('submit', async e => {
     e.preventDefault();
-    const idx = parseInt(prodForm._index.value, 10);
+    const idx = parseInt(prodForm.querySelector('input[name="_index"]').value, 10);
     const data = {
       sku: prodForm.sku.value.trim(), name: prodForm.name.value.trim(),
       category: prodForm.category.value.trim(),
