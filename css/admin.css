@@ -79,10 +79,11 @@ img,svg{display:block;max-width:100%}
 .input{
   width:100%;padding:18px 16px 8px;border:1.5px solid var(--line);border-radius:12px;
   font-family:inherit;font-size:14px;color:var(--on-dark);background:rgba(246,228,176,.04);
-  transition:border-color .2s,box-shadow .2s;
+  transition:border-color .2s,box-shadow .2s;background-clip:padding-box;
+  -webkit-appearance:none;appearance:none;
 }
 .input:focus{outline:0;border-color:var(--gold-400);box-shadow:0 0 0 3px rgba(201,162,39,.12)}
-.input::placeholder{color:var(--on-dark-soft);opacity:.5}
+.input::placeholder{color:var(--on-dark-soft);opacity:0}
 textarea.input{resize:vertical}
 label.float{position:relative;display:block}
 label.float span{
@@ -130,8 +131,8 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 .login-form .btn-gold{width:100%;margin-top:6px}
 .login-error{color:var(--danger);font-size:13px;text-align:center}
 .login-hint{font-size:12px;color:var(--on-dark-soft);margin-top:20px;line-height:1.6}
-.demo-link{color:var(--gold-300);border-bottom:1px dashed var(--gold-400);padding-bottom:1px}
-.login-hint code{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--gold-300);background:rgba(246,228,176,.08);padding:2px 6px;border-radius:4px}
+.demo-link{color:var(--gold-300);border-bottom:1px dashed var(--gold-400);padding-bottom:1px;white-space:nowrap}
+.login-hint code{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--gold-300);background:rgba(246,228,176,.08);padding:2px 6px;border-radius:4px;white-space:nowrap}
 
 /* ---------- app shell ---------- */
 .app{min-height:100vh;display:flex}
