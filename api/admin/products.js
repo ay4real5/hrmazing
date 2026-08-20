@@ -6,7 +6,7 @@
 
 const { requireAdmin } = require('./auth-helpers');
 const { loadOverrides, saveCatalogOverride } = require('./store-helpers');
-const catalog = require('../shared/catalog.js');
+const catalog = require('../../shared/catalog.js');
 
 module.exports = async (req, res) => {
   const auth = requireAdmin(req);
