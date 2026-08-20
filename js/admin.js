@@ -132,11 +132,6 @@
     showLogin();
   });
 
-  /* ---------- auto-enter on load ---------- */
-  if (PREVIEW) { showApp(); }
-  else if (getToken()) { showApp(); }
-  else { showLogin(); }
-
   /* ========================================================================
      Navigation
      ====================================================================== */
@@ -517,4 +512,9 @@
     toastStack.appendChild(d);
     setTimeout(() => d.remove(), 5000);
   }
+
+  /* ---------- auto-enter on load (must be after all init code) ---------- */
+  if (PREVIEW) { showApp(); }
+  else if (getToken()) { showApp(); }
+  else { showLogin(); }
 })();
