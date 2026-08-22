@@ -342,7 +342,7 @@ img,svg{display:block;max-width:100%}
 .hero-inner{position:relative;z-index:2;width:min(880px,92vw);text-align:center}
 
 /* the real logo lockup carries the hero */
-.hero-logo{margin:0 0 4px;line-height:0;position:relative}
+.hero-logo{display:inline-block;margin:0 0 4px;line-height:0;position:relative}
 .hero-logo::before{
   content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   width:min(440px,72vw);height:min(440px,72vw);border-radius:50%;
@@ -374,6 +374,11 @@ img,svg{display:block;max-width:100%}
 @keyframes logoGlow{
   0%,100%{filter:drop-shadow(0 18px 46px rgba(232,163,61,.24))}
   50%{filter:drop-shadow(0 18px 62px rgba(232,163,61,.44))}
+}
+.logo-vignette{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at center, transparent 56%, rgba(21,14,10,.45) 78%, rgba(21,14,10,.96) 100%);
+  z-index:1;pointer-events:none;
 }
 
 .eyebrow{
