@@ -356,6 +356,9 @@ img,svg{display:block;max-width:100%}
 .hero-logo img{
   width:min(340px,58vw);height:auto;margin-inline:auto;
   max-height:42svh;object-fit:contain;
+  border-radius:24px;
+  mask-image:radial-gradient(ellipse at center, black 55%, transparent 78%);
+  -webkit-mask-image:radial-gradient(ellipse at center, black 55%, transparent 78%);
   filter:drop-shadow(0 18px 46px rgba(232,163,61,.28));
   animation:logoGlow 6s ease-in-out infinite;
 }
