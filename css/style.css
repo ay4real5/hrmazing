@@ -1309,7 +1309,13 @@ body{padding-top:34px}
 .scard.feature .pcard-body h3{color:var(--gold-200)}
 @media (min-width:901px){
   .season-grid{grid-template-columns:repeat(2,1fr)}
-  .season-grid .pcard-art{height:290px}
+  /* Never pin the height here: the tile carries aspect-ratio:4/5, so a fixed
+     height makes the WIDTH derive from it — 290px tall gave a 232px tile
+     jammed against the left edge of a 565px card, the rest dead space.
+     Cap it instead, so a two-column feature card on a wide screen does not
+     grow a 700px-tall image. Contain plus the blurred fill handles whatever
+     the cap crops off. */
+  .season-grid .pcard-art{width:100%;max-height:480px}
   .scard .pcard-body h3{font-size:1.6rem}
 }
 
