@@ -16,6 +16,7 @@ module.exports = async (req, res) => {
       .map(p => ({
         sku: p.sku, name: p.name, price: p.price, grams: p.grams,
         category: p.category, shipping: p.shipping,
+        ...(p.image ? { image: p.image } : {}),
         ...(p.badge ? { badge: p.badge } : {}),
         ...(p.note ? { note: p.note } : {}),
         ...(p.personalise ? { personalise: true } : {}),

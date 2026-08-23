@@ -5,7 +5,7 @@
    ========================================================================== */
 
 const { requireAdmin } = require('../auth-helpers');
-const { loadOverrides, saveCatalogOverride } = require('../store-helpers');
+const { loadOverrides, saveCatalogOverride, isPersistent } = require('../store-helpers');
 const catalog = require('../../shared/catalog.js');
 
 module.exports = async (req, res) => {
@@ -70,7 +70,7 @@ async function put(req, res) {
 
   try {
     const saved = await saveCatalogOverride({ products, shipping, cardStyles });
-    return res.status(200).json({ ok: true, saved });
+    return res.status(200).json({ ok: true, saved, persistent: isPersistent() });
   } catch (err) {
     console.error('admin-products PUT:', err);
     return res.status(502).json({ error: 'Could not save products.' });

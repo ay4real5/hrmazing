@@ -266,7 +266,8 @@ const ART = {
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ============ inject illustrations ============ */
-  document.querySelectorAll('#candleGrid .pcard-art, #seasonGrid .pcard-art')
+  // `:empty` skips any tile hydrate.js has already filled with a real photo.
+  document.querySelectorAll('#candleGrid .pcard-art:empty, #seasonGrid .pcard-art:empty')
     .forEach(el => { el.innerHTML = ART.candle(); });
 
   document.querySelectorAll('[data-art]').forEach(card => {

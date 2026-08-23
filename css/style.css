@@ -1223,6 +1223,8 @@ body{padding-top:34px}
 }
 .pcard:hover .pcard-art::after{left:150%}
 .pcard-art .art{height:106%;width:auto;transition:transform .6s var(--ease)}
+.pcard-art .pcard-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
+.pcard:hover .pcard-art .pcard-photo{transform:scale(1.05)}
 .pcard:hover .pcard-art .art{transform:scale(1.05)}
 
 .pcard-body{padding:22px 22px 26px;position:relative;z-index:1}

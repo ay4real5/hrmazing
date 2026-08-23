@@ -20,10 +20,27 @@ const KEY_SETTINGS = 'hermazing:settings';
 /* ---------- in-memory fallback (preview / local dev without Redis) ---------- */
 const mem = new Map();
 
+// True only when a real Redis is configured. Without it every "save" lands in
+// one lambda instance's memory: other instances never see it and a cold start
+// throws it away — which looks exactly like "it saved, then it vanished".
+function isPersistent() {
+  return !!(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+}
+
+let warned = false;
+function warnIfEphemeral() {
+  if (isPersistent() || warned) return;
+  warned = true;
+  console.warn(
+    '[store] UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN are not set. ' +
+    'Admin changes are in-memory only and WILL be lost. See SETUP.md.'
+  );
+}
+
 async function redisGet(key) {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return mem.get(key) || null;
+  if (!url || !token) { warnIfEphemeral(); return mem.get(key) || null; }
   const res = await fetch(`${url}/get/${key}`, {
     headers: { Authorization: `Bearer ${token}` }
   });
@@ -35,12 +52,19 @@ async function redisGet(key) {
 async function redisSet(key, value) {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) { mem.set(key, value); return; }
-  await fetch(`${url}/set/${key}`, {
+  if (!url || !token) { warnIfEphemeral(); mem.set(key, value); return; }
+  // The POST body IS the value. `value` is already a JSON string, so sending
+  // JSON.stringify(value) would store a double-encoded string that reads back
+  // as a string instead of an object — which silently wiped every admin save.
+  const res = await fetch(`${url}/set/${key}`, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(value)
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'text/plain' },
+    body: String(value)
   });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => '');
+    throw new Error(`Upstash SET failed (${res.status}): ${detail.slice(0, 200)}`);
+  }
 }
 
 /* ---------- public API ---------- */
@@ -94,9 +118,15 @@ function sanitizeSettings(s) {
 }
 
 function safeParse(raw) {
-  try { return JSON.parse(raw); } catch { return null; }
+  try {
+    let v = JSON.parse(raw);
+    // Tolerate values written by the old double-encoding bug.
+    if (typeof v === 'string') v = JSON.parse(v);
+    return v;
+  } catch { return null; }
 }
 
 module.exports = {
-  loadOverrides, saveCatalogOverride, saveSettings, effectiveCatalog, sanitizeSettings
+  loadOverrides, saveCatalogOverride, saveSettings, effectiveCatalog, sanitizeSettings,
+  isPersistent
 };

@@ -416,13 +416,20 @@
     });
     const cards = document.getElementById('cardStylesInput').value.split(',').map(s => s.trim()).filter(Boolean);
     try {
-      await authedFetch(`${API}/admin/products`, {
+      const result = await authedFetch(`${API}/admin/products`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ products, shipping: shipOut, cardStyles: cards })
       });
       markClean();
       saveAllBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
-      toast('Changes saved. The storefront is live.', 'ok');
+      // A server without Redis accepts the save into memory and loses it on the
+      // next cold start. Say so, rather than reporting a success that evaporates.
+      if (result && result.persistent === false) {
+        toast('Saved, but NOT permanently — the server has no database configured. ' +
+              'Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in Vercel.', 'error');
+      } else {
+        toast('Changes saved. The storefront is live.', 'ok');
+      }
     } catch (err) {
       saveAllBtn.textContent = 'Save';
       toast('Save failed: ' + err.message, 'error');
