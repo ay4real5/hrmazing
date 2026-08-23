@@ -266,7 +266,8 @@
     prodForm.querySelector('input[name="_index"]').value = idx;
     prodForm.sku.value = p.sku || '';
     prodForm.name.value = p.name || '';
-    prodForm.price.value = p.price || 0;
+    // Stored in cents (Stripe's unit); shown and typed in dollars.
+    prodForm.price.value = ((p.price || 0) / 100).toFixed(2);
     prodForm.grams.value = p.grams || 0;
     prodForm.shipping.value = p.shipping || 'worldwide';
 
@@ -377,7 +378,7 @@
     const data = {
       sku: prodForm.sku.value.trim(), name: prodForm.name.value.trim(),
       category: prodForm.category.value.trim(),
-      price: Math.round(Number(prodForm.price.value)),
+      price: Math.round(Number(prodForm.price.value) * 100),
       grams: Math.round(Number(prodForm.grams.value) || 0),
       shipping: prodForm.shipping.value,
       badge: prodForm.badge.value.trim(),

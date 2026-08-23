@@ -78,6 +78,7 @@
     // Rebuild, then copy onto the EXISTING object: cart.js and shop.js capture
     // `window.CATALOG` by reference, so replacing it wholesale would leave them
     // pointing at stale data.
+    var seedBySku = C.bySku;
     var next = C.buildCatalog({
       products: data.products,
       shipping: data.shipping,
@@ -90,6 +91,12 @@
     });
 
     var live = C.bySku;
+    // Captured BEFORE the overwrite above replaced C.bySku: the untouched seed.
+    // Card copy is hand-written in index.html and richer than anything the
+    // admin form can express, so only fields the admin has actually CHANGED
+    // from the seed get pushed onto a card. Otherwise every product would lose
+    // its description the first time anyone hit Save.
+    var seed = seedBySku;
 
     // 1. Any hand-written card whose SKU the admin hid or deleted comes out of
     //    the DOM entirely, so search, sort and counts stay honest.
@@ -97,16 +104,80 @@
       if (!live[card.dataset.sku]) card.remove();
     });
 
-    // 2. Existing cards keep their copy but take the admin's photo.
+    // 2. Existing cards keep their copy, but take the admin's photo and any
+    //    field the admin has edited away from the seed.
     document.querySelectorAll(CARD_SEL).forEach(function (card) {
       var p = live[card.dataset.sku];
-      if (p && p.image) setPhoto(card, p, false);
+      if (!p) return;
+      if (p.image) setPhoto(card, p, false);
+      syncCard(card, p, seed[card.dataset.sku]);
     });
 
     // 3. Products the admin added get a generated card.
     var known = {};
     document.querySelectorAll(CARD_SEL).forEach(function (c) { known[c.dataset.sku] = true; });
     C.PRODUCTS.forEach(function (p) { if (!known[p.sku]) addCard(p); });
+  }
+
+  /* ---------------- syncing edits onto existing cards ---------------- */
+  function changed(a, b) {
+    if (Array.isArray(a) || Array.isArray(b)) {
+      return JSON.stringify(a || []) !== JSON.stringify(b || []);
+    }
+    return (a || '') !== (b || '');
+  }
+
+  function syncCard(card, p, seedP) {
+    var body = card.querySelector('.pcard-body');
+    if (!body) return;
+
+    var h3 = body.querySelector('h3');
+    if (h3 && p.name && changed(p.name, seedP && seedP.name)) h3.textContent = p.name;
+
+    // `note` is the only free-text field the admin form offers, so it stands in
+    // for the card description when it has been edited.
+    if (p.note && changed(p.note, seedP && seedP.note)) {
+      var para = body.querySelector('p');
+      if (para) {
+        para.textContent = p.note;
+      } else if (h3) {
+        para = document.createElement('p');
+        para.textContent = p.note;
+        h3.insertAdjacentElement('afterend', para);
+      }
+    }
+
+    if (Array.isArray(p.contents) && p.contents.length &&
+        changed(p.contents, seedP && seedP.contents)) {
+      var notes = body.querySelector('.notes');
+      if (!notes) {
+        notes = document.createElement('div');
+        notes.className = 'notes';
+        body.appendChild(notes);
+      }
+      notes.innerHTML = '';
+      p.contents.slice(0, 3).forEach(function (item) {
+        var sp = document.createElement('span');
+        sp.textContent = item;
+        notes.appendChild(sp);
+      });
+    }
+
+    setBadge(card, p.badge);
+  }
+
+  // The admin has always had a badge field; nothing on the storefront rendered
+  // it. Reuses the .type-tag pill, offset when a card already carries one.
+  function setBadge(card, text) {
+    var existing = card.querySelector('.pcard-badge');
+    if (!text) { if (existing) existing.remove(); return; }
+    var el = existing;
+    if (!el) {
+      el = document.createElement('span');
+      el.className = 'pcard-badge type-tag';
+      card.insertBefore(el, card.firstChild);
+    }
+    el.textContent = text;
   }
 
   /* ---------------- card building ---------------- */

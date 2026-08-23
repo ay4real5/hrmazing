@@ -1269,6 +1269,10 @@ body{padding-top:34px}
   border:1px solid rgba(201,162,39,.4);
   backdrop-filter:blur(6px);
 }
+/* An admin-set badge sits top-LEFT so it never collides with the type tag a
+   gift card already carries. Declared after .type-tag: it shares that rule's
+   specificity, so leaving `right:16px` in play would stretch it edge to edge. */
+.pcard-badge{left:16px;right:auto;background:rgba(201,162,39,.92);color:#2A1B10;border-color:rgba(255,240,200,.55);font-weight:500}
 
 /* season cards on dark band */
 .season-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:clamp(20px,2.4vw,30px)}
