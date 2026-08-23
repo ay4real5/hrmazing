@@ -11,7 +11,7 @@ const DEFAULTS = {
   currency: 'usd',
   pricesArePlaceholders: true,
   announcement: '',
-  email: 'hello@hermazingtouch.com',
+  email: 'hermazingtouch@gmail.com',
   phone: '5715757174'
 };
 

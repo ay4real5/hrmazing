@@ -200,11 +200,11 @@ fetches it. It is safe to run any time.
 
 ## Email address
 
-The site uses `hello@hermazingtouch.com` throughout — **this is a placeholder**.
+The site uses `hermazingtouch@gmail.com` throughout — **this is a placeholder**.
 Replace it everywhere with a real address:
 
 ```bash
-grep -rl "hello@hermazingtouch.com" . --exclude-dir=node_modules
+grep -rl "hermazingtouch@gmail.com" . --exclude-dir=node_modules
 ```
 
 It appears in `index.html`, `js/shop.js` and the policy pages.

@@ -5,7 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const C = window.CATALOG;
   const PHONE = '5715757174';
-  const EMAIL = 'hello@hermazingtouch.com';
+  const EMAIL = 'hermazingtouch@gmail.com';
 
   /* ========================================================================
      Shop toolbar — search, sort, result count.

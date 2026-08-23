@@ -45,7 +45,7 @@
     ],
     settings: {
       currency: 'usd', pricesArePlaceholders: true, announcement: 'Complimentary greeting card with every order',
-      email: 'hello@hermazingtouch.com', phone: '571-575-7174'
+      email: 'hermazingtouch@gmail.com', phone: '571-575-7174'
     }
   };
 
