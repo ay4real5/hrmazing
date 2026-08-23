@@ -344,15 +344,31 @@ img,svg{display:block;max-width:100%}
 /* the real logo lockup carries the hero */
 .hero-logo{display:inline-block;margin:0 0 4px;line-height:0;position:relative}
 .hero-logo img{
-  width:min(320px,54vw);height:auto;margin-inline:auto;
-  max-height:40svh;object-fit:contain;
-  filter:drop-shadow(0 18px 46px rgba(232,163,61,.28));
+  width:min(340px,56vw);height:auto;margin-inline:auto;
+  max-height:46svh;object-fit:contain;
+  position:relative;z-index:1;
+  /* The artwork is a full composition on its own lit backdrop — brighter than
+     the hero behind it, so it cannot be masked or blended away without eating
+     into the basket. Presented as a framed piece instead, in the same gold
+     hairline language as .gold-frame and .pcard. */
+  border-radius:4px;
+  border:1px solid rgba(201,162,39,.34);
+  box-shadow:0 24px 64px rgba(0,0,0,.58);
+}
+/* Warm halo sits BEHIND the framed artwork rather than on it. */
+.hero-logo::before{
+  content:"";position:absolute;inset:-6% -10%;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 56% at 50% 50%,rgba(232,163,61,.30),transparent 72%);
+  filter:blur(24px);
   animation:logoGlow 6s ease-in-out infinite;
 }
 @keyframes logoGlow{
-  0%,100%{filter:drop-shadow(0 18px 46px rgba(232,163,61,.24))}
-  50%{filter:drop-shadow(0 18px 62px rgba(232,163,61,.44))}
+  0%,100%{opacity:.7;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.05)}
 }
+/* The halo is a positioned element, so it would otherwise paint over the
+   static hero text sitting above and below it. */
+.hero .eyebrow,.hero .flourish,.hero-sub,.hero-cta{position:relative;z-index:2}
 
 .eyebrow{
   font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;
