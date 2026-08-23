@@ -10,6 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" type="image/png" href="images/favicon.png?v=0e2d18c1">
+
+<!-- catalog.js then hydrate.js, in order, downloaded early and in parallel. -->
+<script src="shared/catalog.js" defer></script>
+<script src="js/hydrate.js" defer></script>
+<!-- hydrate.js decides WHEN these run, but the browser can fetch them now. -->
+<link rel="preload" href="js/cart.js" as="script">
+<link rel="preload" href="js/script.js" as="script">
+<link rel="preload" href="js/shop.js" as="script">
 </head>
 <body>
 
@@ -1252,8 +1260,5 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" fill="currentColor"/></svg>
 </a>
 
-<script src="shared/catalog.js"></script>
-<!-- hydrate.js merges /api/catalog over the seed, then loads cart/script/shop itself -->
-<script src="js/hydrate.js"></script>
 </body>
 </html>

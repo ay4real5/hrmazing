@@ -45,6 +45,13 @@
     .catch(function (err) { console.warn('[hydrate] falling back to seed catalogue:', err); })
     .then(loadRest, loadRest);
 
+  // script.js owns the preloader, and its own 2.6s safety net cannot start
+  // until it runs — which is behind us. Guarantee the curtain lifts.
+  setTimeout(function () {
+    var pre = document.getElementById('preloader');
+    if (pre) pre.classList.add('done');
+  }, 4000);
+
   /* ---------------- fetch ---------------- */
   function fetchCatalog() {
     if (typeof fetch !== 'function') return Promise.resolve(null);
@@ -181,15 +188,20 @@
 
   /* ---------------- hand off to the rest of the site ---------------- */
   function loadRest() {
-    var i = 0;
-    (function next() {
-      if (i >= SCRIPTS.length) return finish();
+    // Append all three at once with async=false: the browser downloads them in
+    // parallel (already warm from the <link rel=preload> hints in <head>) but
+    // still executes them in insertion order, which cart -> script -> shop
+    // depends on. Loading them one-by-one instead cost ~2s of dead time.
+    var pending = SCRIPTS.length;
+    var done = function () { if (--pending === 0) finish(); };
+    SCRIPTS.forEach(function (src) {
       var s = document.createElement('script');
-      s.src = SCRIPTS[i++];
-      s.onload = next;
-      s.onerror = function () { console.error('[hydrate] failed to load', s.src); next(); };
+      s.src = src;
+      s.async = false;
+      s.onload = done;
+      s.onerror = function () { console.error('[hydrate] failed to load', src); done(); };
       document.body.appendChild(s);
-    })();
+    });
   }
 
   function finish() {
