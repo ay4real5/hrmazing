@@ -266,10 +266,15 @@
     // A dead blob URL must not leave a blank tile — fall back to the SVG art.
     img.onerror = function () {
       img.remove();
+      art.classList.remove('has-photo');
+      art.style.removeProperty('--photo');
       card.dataset.art = placement(p.category).art;
     };
     art.innerHTML = '';
     art.appendChild(img);
+    // Drives the blurred backdrop that fills whatever `contain` leaves over.
+    art.classList.add('has-photo');
+    art.style.setProperty('--photo', 'url("' + String(p.image).replace(/"/g, '%22') + '")');
     delete card.dataset.art;          // stop script.js overwriting the photo
   }
 

@@ -1213,7 +1213,7 @@ body{padding-top:34px}
 .pcard:hover{transform:translateY(-9px);box-shadow:var(--shadow-lg);border-color:var(--gold-400)}
 
 .pcard-art{
-  position:relative;height:238px;display:grid;place-items:center;
+  position:relative;aspect-ratio:4/5;display:grid;place-items:center;
   background:
     radial-gradient(ellipse 68% 58% at 50% 44%,var(--tint,#E8A33D),transparent 72%),
     linear-gradient(180deg,#FFFDF8,#F6EEE0);
@@ -1225,9 +1225,24 @@ body{padding-top:34px}
   transform:skewX(-18deg);transition:left .9s var(--ease);
 }
 .pcard:hover .pcard-art::after{left:150%}
-.pcard-art .art{height:106%;width:auto;transition:transform .6s var(--ease)}
-.pcard-art .pcard-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
-.pcard:hover .pcard-art .pcard-photo{transform:scale(1.05)}
+.pcard-art .art{max-height:88%;max-width:92%;height:auto;width:auto;transition:transform .6s var(--ease)}
+/* Uploaded product shots are complete 4:5 marketing posters — brand header,
+   product, and a feature strip along the bottom. `cover` in the short, wide
+   default tile threw away well over half of that, so the tile takes the
+   poster's shape and the image is contained rather than cropped. `contain`
+   alone would letterbox any upload that is not 4:5, so a blurred, scaled copy
+   of the same photo fills whatever is left over. */
+.pcard-art.has-photo::before{
+  content:"";position:absolute;inset:-8%;z-index:0;
+  background-image:var(--photo);background-size:cover;background-position:center;
+  filter:blur(24px) saturate(1.15);opacity:.6;transform:scale(1.05);
+}
+.pcard-art .pcard-photo{
+  position:relative;z-index:1;
+  width:100%;height:100%;object-fit:contain;display:block;
+  transition:transform .6s var(--ease);
+}
+.pcard:hover .pcard-art .pcard-photo{transform:scale(1.03)}
 .pcard:hover .pcard-art .art{transform:scale(1.05)}
 
 .pcard-body{padding:22px 22px 26px;position:relative;z-index:1}
@@ -1436,7 +1451,7 @@ body{padding-top:34px}
   .flourish::after,.flourish.lg::after{background-size:62px 1px,62px 1px,3.5px 3.5px,3.5px 3.5px}
   .product-grid,.season-grid,.collection-grid{grid-template-columns:1fr}
   .collection-art{height:200px}
-  .pcard-art{height:220px}
+  .pcard-art{aspect-ratio:4/5}
   .btn{padding:14px 26px;font-size:.72rem}
   .marquee span{font-size:1rem}
   .mm-item span{font-size:1.6rem}
