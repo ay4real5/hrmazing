@@ -123,6 +123,12 @@
      editing one product) still works: the admin UI always sends the FULL
      current list, so omission just means "no overrides stored yet".
      ---------------------------------------------------------------------- */
+  // Type pills as shipped, so an override that predates the field falls back
+  // to them rather than dropping the label.
+  const SEED_TAGS = Object.fromEntries(
+    PRODUCTS.filter(p => p.tag).map(p => [p.sku, p.tag])
+  );
+
   function buildCatalog(overrides) {
     const ov = overrides && typeof overrides === 'object' ? overrides : {};
 
@@ -138,6 +144,9 @@
       // An empty array is truthy — treat it as absent so a catalogue saved
       // before the admin served real contents recovers its seed list.
       if ((!p.contents || !p.contents.length) && CONTENTS[p.sku]) p.contents = CONTENTS[p.sku];
+      // Same reasoning for the type pill: catalogues saved before `tag` existed
+      // carry no tag at all, and would otherwise lose every label.
+      if (!p.tag && SEED_TAGS[p.sku]) p.tag = SEED_TAGS[p.sku];
     });
 
     const shipping = (Array.isArray(ov.shipping) ? ov.shipping : SHIPPING)
