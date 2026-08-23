@@ -307,13 +307,50 @@
     }
   }
 
-  imageFile.addEventListener('change', e => {
+  async function resizeImage(file, max = 1200, quality = 0.85) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const scale = Math.min(1, max / Math.max(img.width, img.height));
+        const w = Math.round(img.width * scale);
+        const h = Math.round(img.height * scale);
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(c.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not read image.')); };
+      img.src = url;
+    });
+  }
+
+  async function uploadImageToBlob(dataUrl, filename) {
+    const res = await authedFetch(`${API}/admin/upload`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image: dataUrl, name: filename })
+    });
+    return res.url;
+  }
+
+  imageFile.addEventListener('change', async e => {
     const f = e.target.files[0];
     if (!f) return;
-    if (f.size > 500 * 1024) { toast('Image too large — use under 500KB, or paste an external URL.', 'error'); return; }
-    const r = new FileReader();
-    r.onload = ev => { setImagePreview(ev.target.result); imageUrl.value = ''; };
-    r.readAsDataURL(f);
+    if (!f.type.startsWith('image/')) { toast('Please select an image file.', 'error'); return; }
+    setImagePreview('');
+    try {
+      const resized = await resizeImage(f, 1200, 0.85);
+      const url = await uploadImageToBlob(resized, f.name);
+      setImagePreview(url);
+      imageUrl.value = '';
+    } catch (err) {
+      toast(err.message || 'Image upload failed.', 'error');
+      setImagePreview('');
+    }
   });
 
   imageUrl.addEventListener('input', () => {

@@ -63,6 +63,7 @@ Vercel serverless functions in `/api/`.
    | `JWT_SECRET` | a long random string (e.g. `openssl rand -hex 32`) | Admin login |
    | `UPSTASH_REDIS_REST_URL` | your Upstash Redis REST URL | Admin persistence |
    | `UPSTASH_REDIS_REST_TOKEN` | your Upstash Redis REST token | Admin persistence |
+   | `BLOB_READ_WRITE_TOKEN` | your Vercel Blob read/write token | Product image uploads |
 
 5. **Redeploy** after adding the variables — functions only pick up environment
    variables on a fresh deploy.
@@ -208,6 +209,20 @@ grep -rl "hermazingtouch@gmail.com" . --exclude-dir=node_modules
 ```
 
 It appears in `index.html`, `js/shop.js` and the policy pages.
+
+---
+
+## Product images
+
+Product images are uploaded from the admin to **Vercel Blob** storage.
+
+1. In your Vercel project go to **Storage → Vercel Blob → Create a Store**.
+2. Connect the store to your project. Vercel automatically adds `BLOB_READ_WRITE_TOKEN`
+   to the environment variables.
+3. Redeploy so the `/api/admin/upload` function can see the token.
+
+The admin resizes the image to a max of 1200 px and converts it to JPEG before
+uploading, so normal phone photos will not hit the Vercel function body limit.
 
 ---
 
