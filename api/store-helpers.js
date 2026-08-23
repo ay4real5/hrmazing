@@ -20,11 +20,28 @@ const KEY_SETTINGS = 'hermazing:settings';
 /* ---------- in-memory fallback (preview / local dev without Redis) ---------- */
 const mem = new Map();
 
+// The REST credentials get copied by hand out of the Upstash console, so be
+// forgiving about how they arrive: Upstash prints them in .env form with
+// surrounding quotes, and it is easy to bring along a trailing slash or the
+// native :6379 port (the REST API uses plain https, no port).
+function creds() {
+  const url = clean(process.env.UPSTASH_REDIS_REST_URL)
+    .replace(/:6379$/, '')
+    .replace(/\/+$/, '');
+  const token = clean(process.env.UPSTASH_REDIS_REST_TOKEN);
+  return { url, token };
+}
+
+function clean(v) {
+  return String(v || '').trim().replace(/^["']|["']$/g, '').trim();
+}
+
 // True only when a real Redis is configured. Without it every "save" lands in
 // one lambda instance's memory: other instances never see it and a cold start
 // throws it away — which looks exactly like "it saved, then it vanished".
 function isPersistent() {
-  return !!(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+  const { url, token } = creds();
+  return !!(url && token);
 }
 
 let warned = false;
@@ -38,8 +55,7 @@ function warnIfEphemeral() {
 }
 
 async function redisGet(key) {
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const { url, token } = creds();
   if (!url || !token) { warnIfEphemeral(); return mem.get(key) || null; }
   const res = await fetch(`${url}/get/${key}`, {
     headers: { Authorization: `Bearer ${token}` }
@@ -50,8 +66,7 @@ async function redisGet(key) {
 }
 
 async function redisSet(key, value) {
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const { url, token } = creds();
   if (!url || !token) { warnIfEphemeral(); mem.set(key, value); return; }
   // The POST body IS the value. `value` is already a JSON string, so sending
   // JSON.stringify(value) would store a double-encoded string that reads back
