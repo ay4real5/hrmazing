@@ -281,6 +281,7 @@
     }
     catSelect.value = catValue;
     prodForm.badge.value = p.badge || '';
+    prodForm.tag.value = p.tag || '';
     prodForm.note.value = p.note || '';
     prodForm.contents.value = (p.contents || []).join('\n');
     prodForm.personalise.checked = !!p.personalise;
@@ -382,6 +383,7 @@
       grams: Math.round(Number(prodForm.grams.value) || 0),
       shipping: prodForm.shipping.value,
       badge: prodForm.badge.value.trim(),
+      tag: prodForm.tag.value.trim(),
       note: prodForm.note.value.trim(),
       image: imageData.value || imageUrl.value.trim(),
       contents: prodForm.contents.value.split('\n').map(s => s.trim()).filter(Boolean),

@@ -32,24 +32,24 @@
     { sku: 'candle-coconut',    name: 'Coconut & Sea Salt',      price: 2800, grams: 500, category: 'Candles', shipping: 'worldwide' },
     { sku: 'candle-cinnamon',   name: 'Cinnamon Sugar',          price: 2800, grams: 500, category: 'Candles', shipping: 'worldwide' },
     { sku: 'candle-cherry',     name: 'Black Cherry Merlot',     price: 3000, grams: 500, category: 'Candles', shipping: 'worldwide' },
-    { sku: 'candle-fall',       name: 'Make Me Fall',            price: 3200, grams: 500, category: 'Candles', shipping: 'worldwide', badge: 'Signature' },
-    { sku: 'candle-winter',     name: 'Winter Wonderland',       price: 3200, grams: 500, category: 'Candles', shipping: 'worldwide' },
-    { sku: 'candle-summer',     name: 'Summer Breeze',           price: 3200, grams: 500, category: 'Candles', shipping: 'worldwide' },
-    { sku: 'candle-spring',     name: 'Spring Bloom',            price: 3200, grams: 500, category: 'Candles', shipping: 'worldwide' },
+    { sku: 'candle-fall',       name: 'Make Me Fall',            price: 3200, grams: 500, category: 'Candles', shipping: 'worldwide', tag: 'Fall', badge: 'Signature' },
+    { sku: 'candle-winter',     name: 'Winter Wonderland',       price: 3200, grams: 500, category: 'Candles', shipping: 'worldwide', tag: 'Winter' },
+    { sku: 'candle-summer',     name: 'Summer Breeze',           price: 3200, grams: 500, category: 'Candles', shipping: 'worldwide', tag: 'Summer' },
+    { sku: 'candle-spring',     name: 'Spring Bloom',            price: 3200, grams: 500, category: 'Candles', shipping: 'worldwide', tag: 'Spring' },
 
     /* ---------------- gift sets ---------------- */
-    { sku: 'gift-rose-basket',  name: 'Rose & Chocolate Basket', price: 8500, grams: 2200, category: 'Gift Sets', shipping: 'local',
+    { sku: 'gift-rose-basket',  name: 'Rose & Chocolate Basket', price: 8500, grams: 2200, category: 'Gift Sets', shipping: 'local', tag: 'Gift Basket',
       note: 'Contains fresh roses and chocolate-dipped strawberries — local delivery or pickup only.' },
-    { sku: 'gift-dad-box',      name: "Dad's Deluxe Box",        price: 7500, grams: 1800, category: 'Gift Sets', shipping: 'worldwide' },
-    { sku: 'gift-grad-money',   name: 'Grad Cap Money Bouquet',  price: 6500, grams: 700,  category: 'Gift Sets', shipping: 'local',
+    { sku: 'gift-dad-box',      name: "Dad's Deluxe Box",        price: 7500, grams: 1800, category: 'Gift Sets', shipping: 'worldwide', tag: 'Gift Box' },
+    { sku: 'gift-grad-money',   name: 'Grad Cap Money Bouquet',  price: 6500, grams: 700,  category: 'Gift Sets', shipping: 'local', tag: 'Money Bouquet',
       note: 'Cash bouquet — local delivery or pickup only.' },
-    { sku: 'gift-birthday-box', name: 'Birthday Bliss Box',      price: 6800, grams: 1600, category: 'Gift Sets', shipping: 'worldwide' },
-    { sku: 'gift-just-because', name: 'Just Because Bouquet',    price: 5500, grams: 1200, category: 'Gift Sets', shipping: 'local',
+    { sku: 'gift-birthday-box', name: 'Birthday Bliss Box',      price: 6800, grams: 1600, category: 'Gift Sets', shipping: 'worldwide', tag: 'Gift Box' },
+    { sku: 'gift-just-because', name: 'Just Because Bouquet',    price: 5500, grams: 1200, category: 'Gift Sets', shipping: 'local', tag: 'Flower Bouquet',
       note: 'Fresh flowers — local delivery or pickup only.' },
-    { sku: 'gift-mom-money',    name: "Mom's Money Bouquet",     price: 6500, grams: 700,  category: 'Gift Sets', shipping: 'local',
+    { sku: 'gift-mom-money',    name: "Mom's Money Bouquet",     price: 6500, grams: 700,  category: 'Gift Sets', shipping: 'local', tag: 'Money Bouquet',
       note: 'Cash bouquet — local delivery or pickup only.' },
-    { sku: 'gift-fathers-fav',  name: "Father's Day Favourites", price: 7200, grams: 1900, category: 'Gift Sets', shipping: 'worldwide' },
-    { sku: 'gift-next-chapter', name: 'Next Chapter Box',        price: 6900, grams: 1500, category: 'Gift Sets', shipping: 'worldwide' },
+    { sku: 'gift-fathers-fav',  name: "Father's Day Favourites", price: 7200, grams: 1900, category: 'Gift Sets', shipping: 'worldwide', tag: 'Gift Basket' },
+    { sku: 'gift-next-chapter', name: 'Next Chapter Box',        price: 6900, grams: 1500, category: 'Gift Sets', shipping: 'worldwide', tag: 'Gift Box' },
 
     /* ---------------- engraving ---------------- */
     { sku: 'eng-dog-tag',       name: 'Engraved Dog Tag',        price: 1800, grams: 120,  category: 'Engraving', shipping: 'worldwide', personalise: true },
@@ -135,7 +135,9 @@
       if (p.bestSeller === undefined) {
         p.bestSeller = BEST_SELLERS.includes(p.sku);
       }
-      if (!p.contents && CONTENTS[p.sku]) p.contents = CONTENTS[p.sku];
+      // An empty array is truthy — treat it as absent so a catalogue saved
+      // before the admin served real contents recovers its seed list.
+      if ((!p.contents || !p.contents.length) && CONTENTS[p.sku]) p.contents = CONTENTS[p.sku];
     });
 
     const shipping = (Array.isArray(ov.shipping) ? ov.shipping : SHIPPING)
@@ -183,6 +185,7 @@
       shipping: p.shipping === 'local' ? 'local' : 'worldwide'
     };
     if (p.badge)         clean.badge = String(p.badge).slice(0, 40);
+    if (p.tag)           clean.tag = String(p.tag).slice(0, 40);
     if (p.note)          clean.note = String(p.note).slice(0, 300);
     if (p.image)         clean.image = String(p.image).slice(0, 2000);
     if (p.personalise)   clean.personalise = true;

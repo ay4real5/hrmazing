@@ -5,7 +5,7 @@
    ========================================================================== */
 
 const { requireAdmin } = require('../auth-helpers');
-const { loadOverrides, saveCatalogOverride, isPersistent } = require('../store-helpers');
+const { loadOverrides, saveCatalogOverride, isPersistent, effectiveCatalog } = require('../store-helpers');
 const catalog = require('../../shared/catalog.js');
 
 module.exports = async (req, res) => {
@@ -20,7 +20,12 @@ module.exports = async (req, res) => {
 async function get(res) {
   try {
     const ov = await loadOverrides();
-    const products = ov.products || catalog.SEED.products.map(p => ({ ...p }));
+    // The seed keeps `contents` in a separate map that buildCatalog merges in,
+    // so SEED.products has none. Handing those bare rows to the form showed an
+    // empty contents box, and saving wrote that emptiness back — silently
+    // destroying the "what's inside" list. Serve the effective product instead.
+    const cat = await effectiveCatalog();
+    const products = cat.PRODUCTS.map(p => ({ ...p }));
     const shipping = ov.shipping || catalog.SEED.shipping.map(s => ({ ...s }));
     const cardStyles = ov.cardStyles || catalog.SEED.cardStyles.slice();
     return res.status(200).json({ products, shipping, cardStyles });

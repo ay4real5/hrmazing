@@ -164,6 +164,22 @@
     }
 
     setBadge(card, p.badge);
+    setTag(card, p, seedP);
+  }
+
+  // The little product-type pill ("Gift Box", "Fall") used to live only in the
+  // markup, so renaming a product left it contradicting the new name. It is a
+  // real catalogue field now; keep the existing element and just retitle it.
+  function setTag(card, p, seedP) {
+    if (!changed(p.tag, seedP && seedP.tag)) return;
+    var el = card.querySelector('.type-tag:not(.pcard-badge), .season-tag');
+    if (!p.tag) { if (el) el.remove(); return; }
+    if (!el) {
+      el = document.createElement('span');
+      el.className = 'type-tag';
+      card.insertBefore(el, card.firstChild);
+    }
+    el.textContent = p.tag;
   }
 
   // The admin has always had a badge field; nothing on the storefront rendered
@@ -196,8 +212,8 @@
     card.dataset.occasions = 'just-because';
     if (!p.image) card.dataset.art = spot.art;
 
-    var label = spot.tag || (p.category || '').trim();
-    if (label && spot.grid === 'giftGrid') {
+    var label = p.tag || spot.tag || (p.category || '').trim();
+    if (label && (p.tag || spot.grid === 'giftGrid')) {
       var tag = document.createElement('span');
       tag.className = 'type-tag';
       tag.textContent = label;

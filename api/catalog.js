@@ -18,6 +18,7 @@ module.exports = async (req, res) => {
         category: p.category, shipping: p.shipping,
         ...(p.image ? { image: p.image } : {}),
         ...(p.badge ? { badge: p.badge } : {}),
+        ...(p.tag ? { tag: p.tag } : {}),
         ...(p.note ? { note: p.note } : {}),
         ...(p.personalise ? { personalise: true } : {}),
         ...(p.bestSeller ? { bestSeller: true } : {}),
