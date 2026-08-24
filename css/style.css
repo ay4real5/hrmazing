@@ -1251,7 +1251,12 @@ body{padding-top:34px}
   filter:blur(24px) saturate(1.15);opacity:.6;transform:scale(1.05);
 }
 .pcard-art .pcard-photo{
-  position:relative;z-index:1;
+  /* Absolute, not height:100%. Where the tile's height comes from
+     aspect-ratio clamped by a max-height (the seasonal row), a percentage
+     height resolves against the UNCLAMPED height: the image box became
+     563x699 inside a 563x480 tile, overflowed, and was simply clipped —
+     object-fit never got a say. inset:0 pins it to the tile as rendered. */
+  position:absolute;inset:0;z-index:1;
   width:100%;height:100%;object-fit:contain;display:block;
   transition:transform .6s var(--ease);
 }
